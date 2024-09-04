@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+
+    <link rel="stylesheet" href="/css/studentProfile.css">
+    <link rel="stylesheet" href="/css/units.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/teacherPanel.css">
+
+    <title>
+      <%= pageTitle %>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+    <div class="wrapper pt-24 lg:pt-0">
+
+      <%- include('../includes/message.ejs') %>
+
+        <h1 class="main-heading">Teacher Panel</h1>
+
+        <div id="panel" class="dynamic-tabs">
+
+          <div class="panel-list tabs-list">
+            <li data-content="#list-students" class="active">
+              <a class="list-group-item  list-group-item-action ">Students</a>
+            </li>
+            <li data-content="#list-assistents">
+              <a class=" list-group-item-action">Assistents</a>
+            </li>
+            <li data-content="#list-units">
+              <a class=" list-group-item-action">Units</a>
+            </li>
+            <li data-content="#list-settings">
+              <a class=" list-group-item-action">Settings</a>
+            </li>
+          </div>
+          <div class="content-list">
+            <div id="list-students">
+              <div id="quickLook" class="none">
+
+              </div>
+              <div class="list-students_filter-wrapper">
+                <span id="filterStudentsBtn">Filter
+                  <i class="fas fa-sort-amount-down-alt"></i>
+                </span>
+                <div class="filters" id="filterStudents" style="background: #e2e2e2;">
+                  <h4>Search By Grade:</h4>
+
+                  <form id="filter-students-grade" action="">
+                    <div class="form-check filter-grade-students form-check-inline">
+                      <input class="form-check-input" type="radio" name="sgrade" id="sGrade1" value="1">
+                      <label class="form-check-label" for="sGrade1">Grade: 1</label>
+                    </div>
+                    <div class="form-check filter-grade-students form-check-inline">
+                      <input class="form-check-input" type="radio" name="sgrade" id="sGrade2" value="2">
+                      <label class="form-check-label" for="sGrade2">Grade: 2</label>
+                    </div>
+
+                    <div class="form-check filter-grade-students form-check-inline">
+                      <input class="form-check-input" type="radio" name="sgrade" id="sGrade3" value="3">
+                      <label class="form-check-label" for="sGrade3">Grade: 3</label>
+                    </div>
+                  </form>
+
+                  <div style=" border-radius: 10px;
+                        margin-bottom: 5px;
+                        background: #f9f9f9;
+                        padding: 8px;">
+                    <h4>Search By Center:</h4>
+                    <form id="filter-students-centers" action="">
+
+                      <% teacher.centers.forEach(c=>{ %>
+                        <div class="form-check filter-center-students form-check-inline">
+                          <input class="form-check-input" type="radio" name="center" id="<%=c.center%>"
+                            value="<%=c.center%>">
+                          <label class="form-check-label" for="<%=c.center%>">
+                            <%= c.center %>
+                          </label>
+                        </div>
+                        <% }) %>
+                    </form>
+                    <form id="filter-students-grade-centers" action="">
+                      <div class="form-check filter-grade-centers-students form-check-inline">
+                        <input class="form-check-input" type="radio" name="scgrade" id="sCGrade1" value="1">
+                        <label class="form-check-label" for="sCGrade1">Grade: 1</label>
+                      </div>
+                      <div class="form-check filter-grade-centers-students form-check-inline">
+                        <input class="form-check-input" type="radio" name="scgrade" id="sCGrade2" value="2">
+                        <label class="form-check-label" for="sCGrade2">Grade: 2</label>
+                      </div>
+
+                      <div class="form-check filter-grade-centers-students form-check-inline">
+                        <input class="form-check-input" type="radio" name="scgrade" id="sCGrade3" value="3">
+                        <label class="form-check-label" for="sCGrade3">Grade: 3</label>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div id="search-student-number" class="form-group">
+                    <input class="form-control" type="text" name="sNumber" id="sNumber" placeholder="By Number">
+                    <button id="searchNumberBtn" class="btn btn-sm btn-info">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="students">
+                <input type="hidden" name="teacherId" value="<%=user._id%>">
+
+
+              </div>
+              <div class="loading">
+                <img src="/images/loading(3).svg" alt="">
+              </div>
+            </div>
+            <div id="list-assistents">
+              <h3 style="margin: 0">All Assistents:</h3>
+
+              <% if(assistents.length> 0){ %>
+                <div id="assistents">
+                  <% assistents.forEach(assistent=>{ %>
+                    <div class="assistent rounded p-3">
+                      <div class="assistent-header">
+                        <img src="/<%=assistent.assistentImage%>" alt="">
+                        <h2>
+                          <%= assistent.name %>
+                        </h2>
+                        <span>
+                          Mobile:
+                          <%= assistent.mobile %>
+                        </span>
+                        <span>
+                          Email:
+                          <%= assistent.email %>
+                        </span>
+                      </div>
+                      <div class="assistent-actions">
+
+                        <form action="/teacher/deleteAssistent/<%= assistent._id %>" method="post">
+                          <button class="btn btn-danger mt-2">Delete</button>
+                        </form>
+                        <% if(assistent.blocked){ %>
+                          <form action="/teacher/unblockAssistent/<%= assistent._id %>" method="post">
+                            <button class="btn btn-primary mt-2">Unblock</button>
+                          </form>
+                          <% } %>
+
+                            <% if(!assistent.blocked){ %>
+                              <form action="/teacher/blockAssistent/<%= assistent._id %>" method="post">
+                                <button class="btn btn-warning mt-2">Block</button>
+                              </form>
+                              <% } %>
+                      </div>
+
+                    </div>
+                    <% }) %>
+                </div>
+                <% }else{ %>
+                  <p class="lead">No Assistent Yet.</p>
+                  <%} %>
+                    <h3 style="margin: 0">Add Assistent:</h3>
+
+                    <form action="/teacher/addAssistent" method="POST">
+
+                      <input type="hidden" name="teacherId" value="<%= userId %>">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Assistent Name</label>
+                        <input type="text" class="form-control" placeholder="Enter name" name="name" required
+                          value="<% if (hasError) { %><%= oldInputs.name %><% } %>" />
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" placeholder="Enter email" name="email" required
+                          value="<% if (hasError) { %><%= oldInputs.email %><% } %>" />
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control" placeholder="Password" name="password" required
+                          value="<% if (hasError) { %><%= oldInputs.password %><% } %>" />
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Confirm Password</label>
+                        <input type="password" class="form-control" name="confPassword" placeholder="Re-Password"
+                          required value="<% if (hasError) { %><%= oldInputs.confPassword %><% } %>" />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Assistent Mobile</label>
+                        <input type="text" class="form-control" name="mobile" placeholder="Enter Your Mobile" required
+                          value="<% if (hasError) { %><%= oldInputs.mobile %><% } %>" />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>
+
+            <div id="list-units">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                <h3 style="margin: 0">All Units:</h3>
+                <a href="/teacher/newUnit" style="margin: 0" class="btn btn-success">Add New Unit</a>
+              </div>
+              <div class="loading">
+                <img src="/images/loading(3).svg" alt="">
+              </div>
+              <div class="filters" id="filter">
+                <form id="filter-grade" action="">
+                  <div class="form-check filter-grade-item form-check-inline">
+                    <input class="form-check-input" type="radio" name="grade" id="grade1" value="1">
+                    <label class="form-check-label" for="grade1">Grade: 1</label>
+                  </div>
+                  <div class="form-check filter-grade-item form-check-inline">
+                    <input class="form-check-input" type="radio" name="grade" id="grade2" value="2">
+                    <label class="form-check-label" for="grade2">Grade: 2</label>
+                  </div>
+
+                  <div class="form-check filter-grade-item form-check-inline">
+                    <input class="form-check-input" type="radio" name="grade" id="grade3" value="3">
+                    <label class="form-check-label" for="grade3">Grade: 3</label>
+                  </div>
+                </form>
+
+                <form id="filter-term" action="">
+                  <div class="form-check filter-term-item form-check-inline">
+                    <input class="form-check-input" type="radio" name="term" id="term1" value="1">
+                    <label class="form-check-label" for="term1">Term: 1</label>
+                  </div>
+                  <div class="form-check filter-term-item form-check-inline">
+                    <input class="form-check-input" type="radio" name="term" id="term2" value="2">
+                    <label class="form-check-label" for="term2">Term: 2</label>
+                  </div>
+
+                </form>
+              </div>
+              <div id="teacher-units" class="items">
+
+              </div>
+
+            </div>
+
+            <div id="list-settings">
+
+              <form action="/teacher/info" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="teacherId" value="<%=userId%>">
+                <div class="form-group">
+                  <img id="teacherImg" src="/<%=teacher.profileImage%>" alt="">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" class="form-control" placeholder="Enter name" name="updatedName"
+                    value="<%=teacher.name%>" />
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Profile Picture</label>
+                  <input type="file" class="form-control" name="image" />
+                </div>
+                <button class="btn btn-success right">Update</button>
+              </form>
+              <form style="margin: var(--main-margin) 0" action="/teacher/changeTeacherPass" method="POST">
+                <input type="hidden" name="teacherId" value="<%=userId%>">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Old Password</label>
+                  <input type="password" class="form-control" placeholder="Old Password" name="oldPassword" />
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">New Password</label>
+                  <input type="password" class="form-control" placeholder="New Password" name="newPassword" />
+                </div>
+                <button class="btn btn-success">Change</button>
+
+              </form>
+              <div class="form-group" id="addCenter">
+                <form action="" class="form-group">
+                  <input type="text" class="form-control d-inline" name="newCenter" placeholder="Add New Group/Center">
+                  <a id="addNewCenter" class=" btn btn-sm btn-info d-inline">Add</a>
+                </form>
+                <%if(teacher.centers.length> 0){ %>
+                  <ul class="centers list-group">
+                    <%teacher.centers.forEach(c=>{ %>
+                      <li class="list-group-item">
+                        <%=c.center%>
+
+                          <input type="hidden" name="centerId" value="<%=c._id%>">
+                          <input type="hidden" name="centerName" value="<%=c.center%>">
+                          <button class="deleteCenter btn btn-sm btn-danger float-right">Delete</button>
+                      </li>
+
+                      <%}) %>
+                  </ul>
+                  <%}else{ %>
+                    <p>No Groups Added</p>
+                    <%} %>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <%- include('../includes/end.ejs') %>
+
+
+      <script src="/js/helpers/message.js"></script>
+      <script src="/js/helpers/request.js"></script>
+      <script src="/js/helpers/editForms.js"></script>
+      <script src="/js/teacher/components/students.js"></script>
+      <script src="/js/teacher/components/profile-layout.js"></script>
+      <script src="/js/teacher/components/unit/main.js"></script>
+      <script src="/js/teacher/units.js"></script>
+      <script src="/js/teacher/centers.js"></script>
+      <script src="/js/teacher/students.js"></script>
+
+</body>
+
+</html>

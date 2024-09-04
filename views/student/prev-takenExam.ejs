@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" href="/css/studentPrevExam.css">
+        <title>
+            <%= pageTitle%>
+        </title>
+</head>
+
+<body>
+
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper">
+
+            <div class="exam">
+                <div class="exam-info">
+                    <div>
+                        <img src="/<%=lesson.lessonImage%>" class="img-fluid" alt="...">
+                        <h2 class="card-title text-lg">
+                            <%= lesson.lessonName%>
+                        </h2>
+                    </div>
+                    <div class="exam-score">
+                        <p>Total Score:
+                            <span>
+                                <%=lesson.totalScore%>/
+                                    <%=lesson.lessonQuestions.length%>
+                            </span>
+                        </p>
+                    </div>
+                    <%if(user.isTeacher || user.isAssistent){%>
+                        <div class="exam-addScore">
+                            <form action="/public/addscore/<%=lesson._id%>?studentId=<%=studentId%>" method="post">
+                                <input style="border: none; margin: 10px 0;" type="number" name="addedScore" id="">
+                                <button class="btn btn-secondary btn-sm">Add</button>
+                            </form>
+
+                        </div>
+                        <form action="/public/deleteTakenExam/<%=studentId%>?lessonId=<%=lesson._id%>" method="post">
+
+                            <button class="btn btn-danger btn-sm">Remove Taken Exam</button>
+                        </form>
+                        <%}else{%>
+                            <input type="hidden" name="studentIdNotifi" value="<%=user._id%>">
+                            <%} %>
+                </div>
+                <div class="exam-questions">
+                    <% lesson.lessonQuestions.forEach(q => { %>
+                        <div class="card-body">
+                            <%if(q.point === 1){%>
+                                <p class="badge badge-success float-right p-2">
+                                    <i class="fas fa-check"></i>
+                                </p>
+                                <%}else{%>
+                                    <p class="badge badge-danger badge-pill float-right p-2">
+                                        <i class="fas fa-times"></i>
+                                    </p>
+                                    <%}%>
+                                        <h3>
+                                            <%=q.question%>
+                                        </h3>
+                                        <img src="/<%=q.questionImg%>">
+                                        <ol>
+                                            <% q.answers.forEach(a => { %>
+
+                                                <li class="list-group-item mb-2 <%= a.answerNo === 0 ? 'd-none' : ''%>">
+                                                    <%= a.answer %>
+                                                </li>
+
+                                                <%})%>
+                                        </ol>
+                                        <p class="selectedAnswer">
+
+                                            <%if(q.questionType === 'choose'){%>
+                                                <b> Your Answer: </b>
+                                                <%= q.selectedAnswer.answer %>
+                                                    <%}else if(q.questionType === 'paragraph'){%>
+                                                            <%= q.selectedAnswer.answer %>
+
+                                                        <%}  else {%>
+                                                            <img src="/<%=q.selectedAnswer.answer%>">
+                                                            <%}%>
+                                        </p>
+                        </div>
+                        <%})%>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+</body>
+
+</html>

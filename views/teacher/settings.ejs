@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+
+    <title>
+      <%= pageTitle %>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+    <div class="wrapper pt-24 lg:pt-0">
+
+      <%- include('../includes/message.ejs') %>
+
+        <h1 class="main-heading">
+          Accont Settings
+        </h1>
+
+        <div class="dynamic-tabs">
+          <div id="list-settings">
+            <form action="/teacher/settings/info" method="post" enctype="multipart/form-data"
+              class="p-5 shadow bg-gray-50 my-2 rounded">
+              <h3 class="font-bold text-lg mb-3">
+                Personal Info
+              </h3>
+              <input type="hidden" name="teacherId" value="<%=userId%>">
+              <div>
+                <div class="">
+                  <img id="teacherImg" src="/<%=teacher.image%>" alt="">
+                </div>
+                <div class="grid mb-3">
+                  <label for="exampleInputEmail1">
+                    Name
+                  </label>
+                  <input type="text" class="input" placeholder="Enter name" name="updatedName"
+                    value="<%=teacher.name%>" />
+                </div>
+
+                <div class="grid mb-3">
+                  <input type="file" class="input" name="image" />
+                  <label for="exampleInputEmail1" class="btn-3"></label>
+                </div>
+
+              </div>
+
+              <button class="btn btn-success right">
+                Save
+              </button>
+            </form>
+            <form action="/teacher/settings/password" method="POST" class="p-5 shadow bg-gray-50 my-4 rounded">
+              <h3 class="font-bold text-lg mb-3">
+                Change Password
+              </h3>
+
+              <input type="hidden" name="teacherId" value="<%=userId%>">
+              <div class="grid mb-3">
+                <label for="exampleInputEmail1">
+                  Old Password
+                </label>
+                <input type="password" class="input placeholder=" Old Password" name="oldPassword" />
+              </div>
+              <div class="grid mb-3">
+                <label for="exampleInputEmail1">
+                  New Password
+                </label>
+                <input type="password" class="input placeholder=" New Password" name="newPassword" />
+              </div>
+              <button class="btn btn-success">
+                Update
+              </button>
+
+            </form>
+            <div class="p-5 shadow bg-gray-50 my-4 rounded" id="addCenter">
+              <h3 class="font-bold text-lg mb-3">
+                Centers
+              </h3>
+
+              <form action="" class="flex justify-between items-center mb-3 gap-x-5">
+                <input type="text" class="input" name="newCenter" placeholder="Add New Group/Center">
+                <a id="addNewCenter" class=" btn btn-success">
+                  Add New
+                </a>
+              </form>
+              <%if(teacher.centers.length> 0){ %>
+                <ul class="centers list-group p-2">
+                  <%teacher.centers.forEach(c=>{ %>
+                    <li
+                      class="list-group-item p-2 bg-white mb-2 font-medium flex justify-between items-center rounded-lg shadow">
+                      <%=c%>
+                        <input type="hidden" name="centerId" value="<%=c._id%>">
+                        <input type="hidden" name="centerName" value="<%=c%>">
+                        <button class="deleteCenter btn btn-sm btn-danger">
+                          Delete
+                        </button>
+                    </li>
+                    <%}) %>
+                </ul>
+                <%}else{ %>
+                  <p>
+                    No Centers Here.
+                  </p>
+                  <%} %>
+
+            </div>
+
+          </div>
+        </div>
+    </div>
+    </div>
+
+    <%- include('../includes/end.ejs') %>
+
+
+      <script src="/js/helpers/message.js"></script>
+      <script src="/js/helpers/request.js"></script>
+      <script src="/js/teacher/centers.js"></script>
+
+</body>
+
+</html>

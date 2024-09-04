@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+
+        <link rel="stylesheet" href="/css/studentProfile.css">
+        <!-- <link rel="stylesheet" href="/css/teacherPanel.css"> -->
+
+        <title>
+            <%= pageTitle %>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+
+            <%- include('../includes/message.ejs') %>
+
+                <h1 class="main-heading">
+                    Students
+                </h1>
+
+                <div class="">
+                    <div id="list-students" class="bg-white w-full h-full">
+                        <div id="quickLook"
+                            class="hidden fixed top-0 left-0 h-screen overflow-auto bg-white z-30 p-2 w-full ">
+
+                        </div>
+                        <div class="sheet attendance hidden">
+                            <i class="getBack fas fa-arrow-left"></i>
+                            <div class="all-items "> </div>
+                        </div>
+
+                        <div id='choosenLesson' class="sheet hidden">
+                            <i class="fa-arrow-left fas fixed getBack right-[4%] top-[4%] fas fa-arrow-left"></i>
+                            <div class="all-items"></div>
+                        </div>
+                        <div class="bg-gray-50 list-students_filter-wrapper my-4 p-3 rounded shadow">
+                            <div class="flex justify-between my-2">
+                                <span id="filterStudentsBtn" class="toggle-filter">
+                                    Filter
+                                    <i class="fas fa-sort-amount-down-alt"></i></span>
+                                <button id="import" class="btn btn-info toggle-import">
+                                    Import Students
+                                </button>
+                            </div>
+                            <div class="filters relative p-2 rounded bg-slate-300 mt-2" id="filterStudents">
+                                <i class="absolute close cursor-pointer fa-times fas right-[4%] toggle-filter"></i>
+                                <div class="mt-2">
+                                    <span>Center</span>
+
+                                    <form id="filter-students-centers"
+                                        class=" bg-white border flex gap-3 items-center justify-between max-w-full mb-2 overflow-y-hidden p-2 rounded-full">
+                                        <div class="radio filter-center-students form-check-inline">
+                                            <input class="form-check-input" type="radio" name="center" id="default"
+                                                value="default">
+                                            <label class="form-check-label" for="default">
+                                                Default
+                                            </label>
+                                        </div>
+
+                                        <% teacher.centers.forEach(c=>{ %>
+                                            <div class="radio filter-center-students form-check-inline">
+                                                <input class="form-check-input" type="radio" name="center"
+                                                    id="<%= c.replace(/\s+/g, '-') %>" value="<%=c%>">
+                                                <label class="form-check-label" for="<%= c.replace(/\s+/g, '-') %>">
+                                                    <%= c %>
+                                                </label>
+                                            </div>
+                                            <% }) %>
+                                    </form>
+                                </div>
+                                <div>
+                                    <span>Grade</span>
+                                    <form id="filter-students-grade-centers"
+                                        class="bg-white border flex gap-3 items-center max-w-full mb-2 overflow-y-hidden p-2 rounded-full">
+                                        <div class="radio filter-grade-centers-students form-check-inline">
+                                            <input class="form-check-input" type="radio" name="scgrade" id="sCGrade1"
+                                                value="1">
+                                            <label class="form-check-label" for="sCGrade1">
+                                                Grade 1
+                                            </label>
+                                        </div>
+                                        <div class="radio filter-grade-centers-students form-check-inline">
+                                            <input class="form-check-input" type="radio" name="scgrade" id="sCGrade2"
+                                                value="2">
+                                            <label class="form-check-label" for="sCGrade2">
+                                                Grade 2
+                                            </label>
+                                        </div>
+                                        <div class="radio filter-grade-centers-students form-check-inline">
+                                            <input class="form-check-input" type="radio" name="scgrade" id="sCGrade3"
+                                                value="3">
+                                            <label class="form-check-label" for="sCGrade3">
+                                                Grade 3
+                                            </label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <button class="btn btn-info my-2" id="start-search">Search</button>
+                            </div>
+                            <div id="search-student-number" class="flex gap-x-5 my-2">
+                                <input class="input" type="text" name="sNumber" id="sNumber"
+                                    placeholder="Search By Number">
+                                <button id="searchNumberBtn" class="btn btn-sm">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-lightgray p-medium">
+
+                        <div id="options" class=" m-3">
+                        </div>
+                        <div id="students" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 relative ">
+                            <input type="hidden" name="teacherId" value="<%=user._id%>">
+                        </div>
+                    </div>
+                    <!-- // update in production 28/9 -->
+                    <form class="changecenter external-box w-50 hidden z-50">
+                        <i class="fas fa-times change-center close"></i>
+                        <div>
+                            <label for="updatedname">
+                                Name
+                            </label>
+                            <input type="text" name="updatedname" id="updatedname" class="form-control">
+                        </div>
+                        <div>
+                            <label for="updatedname">
+                                Mobile
+                            </label>
+                            <input type="text" name="updatedmobile" id="updatedmobile" class="form-control">
+                        </div>
+                        <div>
+                            <label for="updatedparent">
+                                Parent Number
+                            </label>
+                            <input type="text" name="updatedparent" id="updatedparent" class="form-control">
+                        </div>
+                        <div>
+                            <label for="updatedcode">
+                                Code
+                            </label>
+                            <input type="text" name="updatedcode" id="updatedcode" class="form-control">
+                        </div>
+                        <div>
+                            <label for="updatedcenter">
+                                Center
+                            </label>
+                            <select name="center" id="updatedcenter" class="form-control">
+                                <% teacher.centers.forEach(c=>{ %>
+                                    <option value="<%=c%>">
+                                        <%=c%>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+
+                        <button class=" btn btn-success submit-center my-2">
+                            Update
+                        </button>
+                    </form>
+                    <div class="loading hidden">
+                        <img src="/images/loading(3).svg" alt="">
+                    </div>
+                </div>
+        </div>
+        <div class="external-box import-form hidden">
+            <div class="flex justify-between items-center">
+                <h2>Import Students</h2>
+                <i class="fas fa-times toggle-import close"></i>
+            </div>
+
+            <form enctype="multipart/form-data">
+                <div class=" mt-2">
+                    <label for="upload" class="block font-medium">Select Center</label>
+                    <input id="upload" type=file name="files[]" class="form-control"
+                        style="width: unset; height:unset;">
+                </div>
+            </form>
+            <a href="/teacher/excel/demo" class="mt-2 text-sm">
+                Download Demo
+            </a>
+            <p class="info-message success c-g font-xl m-medium"></p>
+            <p class="info-message error c-r font-xl m-medium"></p>
+            <button id="confirm-students" class="btn btn-success opacity-75">
+                Upload
+            </button>
+        </div>
+
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.1.1/jspdf.umd.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+            <script src="/js/teacher/components/profile-layout.js"></script>
+            <script src="/js/helpers/message.js"></script>
+            <script src="/js/helpers/request.js"></script>
+            <script src="/js/helpers/editForms.js"></script>
+            <script src="/js/teacher/components/students.js"></script>
+            <script src="/js/teacher/components/exams.js"></script>
+            <script src="/js/teacher/centers.js"></script>
+            <script src="/js/teacher/students.js"></script>
+            <script src="/js/teacher/upload-students-sheet.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+</body>
+
+</html>

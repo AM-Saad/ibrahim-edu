@@ -1,0 +1,68 @@
+
+.exam-info{
+    margin: var(--scnd-margin) 0;
+    position: relative;
+    min-height: 300px;
+    text-align: center;
+    background: #000000e3;
+    overflow: hidden;
+    border-radius: var(--radius);
+    padding: var(--scnd-padding)
+}
+.exam-info img{
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0)
+}
+.exam-info h2{
+    text-transform: capitalize;
+    font-size: 7vh;
+    text-align: center;
+    color: #fff;
+}
+.exam-questions .card-body{
+    background-color: #fff;
+    padding: var(--main-padding);
+    margin-bottom: var(--main-margin);
+    border-radius: var(--radius) 
+}
+.exam-questions li{
+    padding: var(--scnd-padding);
+    margin-bottom: var(--scnd-margin);
+
+}
+.exam-questions p{
+    padding: var(--scnd-padding);
+    border-radius: var(--radius);
+    margin: 3px 0;
+}
+.exam-questions .selectedAnswer{
+    background-color: #ccc;
+}
+.exam-questions .card-body .badge{
+    color: #fff;
+    float: right;
+    padding: var(--scnd-padding);
+    border-radius: var(--radius)
+
+}
+.badge-success{
+    background-color: chartreuse;
+}
+.badge-danger{
+    background-color: red
+}
+.exam-score p {
+    font-size: 2.5em;
+    background-color: rgba(44, 180, 44, 0.849);
+    width: 60%;
+    border-radius: var(--radius);
+    margin: auto;
+}
+.exam-score p span{
+    color: #fff;
+    display: block;
+}

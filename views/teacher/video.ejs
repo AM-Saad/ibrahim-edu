@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/units.css" />
+    <link rel="stylesheet" href="/css/lesson.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+
+    <title>
+        <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <div class="wrapper">
+        <video src="/<%=video.path%>"></video>
+    </div>
+    <%- include('../includes/end.ejs') %>
+    <script src="/js/main.js"></script>
+    <script src="/js/helpers/request.js"></script>
+    <script src="/js/helpers/message.js"></script>
+    <script>
+    </script>
+
+</body>
+
+</html>

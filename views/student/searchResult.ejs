@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <title>
+            <%= pageTitle%>
+        </title>
+        <style>
+            .result {
+                padding: 10px;
+                background: #fff;
+                display: grid;
+                grid-gap: 24px;
+                font-size: 26px;
+            }
+
+            .result .startExam {
+                padding: 3px;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper">
+
+            <div class="card result">
+                <div class="card-header text-left text-lg bg-black-50">
+                    <h5 class="card-title text-dark" style="text-transform:capitalize;">
+                        <%=lesson.lessonName%>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-dark">
+                        <b>Grade:</b>
+                        <%=lesson.grade%>
+                    </h6>
+                    <h6 class="card-subtitle mb-2 text-dark">
+                        <b>Term:</b>
+                        <%=lesson.term%>
+                    </h6>
+                    <p class="lead">By Teacher:
+                        <%= lesson.teacher.teacherName%>
+                    </p>
+                    <a class="btn btn-success startExam" href="/startExam/<%=lesson._id%>">Start Exam</a>
+
+                </div>
+                <img class="img-fluid" src="/<%=lesson.lessonImg%>" alt="" srcset="">
+            </div>
+        </div>
+        <%- include('../includes/end.ejs') %>
+            <script src="/js/lessonConfig.js"></script>
+
+</body>
+
+</html>

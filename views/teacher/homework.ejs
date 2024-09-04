@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/teacher/exam.css" />
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body dir="rtl">
+  <%- include('../includes/nav.ejs') %>
+    <div class="wrapper relative pt-24 lg:pt-0" dir="rtl">
+      <%- include('../includes/message.ejs') %>
+
+        <input type="hidden" value="<%=homeworkId%>" name="homeworkId">
+        <div id="holders">
+          <section class="placeHolder" style="height: 300px;">
+            <article class="background">
+              <div class="a"></div>
+              <div class="b"></div>
+              <div class="c"></div>
+              <div class="d"></div>
+              <div class="e"></div>
+              <div class="f"></div>
+              <div class="g"></div>
+              <div class="h"></div>
+              <div class="i"></div>
+              <div class="j"></div>
+              <div class="k"></div>
+              <div class="l"></div>
+            </article>
+          </section>
+          <section class="placeHolder">
+            <article class="background">
+              <div class="g"></div>
+              <div class="h"></div>
+              <div class="i"></div>
+              <div class="j"></div>
+              <div class="k"></div>
+              <div class="l"></div>
+            </article>
+          </section>
+        </div>
+        <div class="header rounded grid bg-white p-2" style="opacity:0;">
+          <div class="relative">
+            <div class="header-info p-3">
+
+            </div>
+            <div class="header-actions">
+              <a class="btn toggle-settings"> الاعدادات</a>
+            </div>
+
+            <form action="/teacher/homework/settings/<%=homeworkId%>" method="POST"
+              class="settings external-box hidden">
+              <h2>الاعدادات</h2>
+              <i class="fas fa-times close toggle-settings"></i>
+
+              <div class="grid mb-3">
+                <label for="name">الاسم</label>
+                <input class="input" type="text" name="name" id="name">
+
+              </div>
+              <div class="flex gap-3 mb-3">
+                <input type="checkbox" class="form-check-input" name="isOpened" id="isOpened" />
+                <label for="isOpened">مغلق</label>
+              </div>
+              <button type="submit" class="btn btn-success">
+                حفظ
+              </button>
+            </form>
+            <div id="NewQuestionForm" class="dynamic-tabs position-absolute hidden">
+              <span class="text-dark float-right mr-1 mt-1" id="closeQuestionForm">
+                <i class="fas fa-times "></i>
+              </span>
+              <ul class="tabs-list">
+                <li class="active" data-questionType='choose' data-content=".content-one">Choose</li>
+                <li data-questionType='written' data-content=".content-two">Written</li>
+                <li data-questionType='paragraph' data-content=".content-three">Paragraph</li>
+                <li data-questionType='truefalse' data-content=".content-four">True/False</li>
+              </ul>
+              <div class="content-list">
+                <div class="content-one">
+                  <div class="form-group questionPreview">
+                    <div data-id="questionText" class="questionsInputs inputActive form-control">
+                      السؤال
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answerone" class="questionsInputs form-control">
+                      الاجابة الاولى
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answertwo" class="questionsInputs form-control">
+                      الاجابة الثانية
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answerthree" class="questionsInputs form-control">
+                      الاجابة الثالثة
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answerfour" class="questionsInputs form-control">
+                      الاجابة الرابعة
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="correctAnswer" class="questionsInputs form-control">
+                      الاجابة الصحيحة
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="content-two hidden">
+                  <div class="form-group questionPreview">
+                    <div data-id="questionText" class="questionsInputs form-control">
+                      السؤال
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="questionScore" class="questionsInputs form-control">
+                      درجه السؤال <span style="font-size:10px">الافتراضي: 1</span>
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="content-three hidden">
+                  <div class="form-group questionPreview">
+
+                    <div data-id="questionText" class="questionsInputs form-control">
+                      السؤال
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="questionScore" class="questionsInputs form-control">
+                      درجه السؤال <span style="font-size:10px">الافتراضي: 1</span>
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="content-four hidden">
+                  <div class="form-group questionPreview">
+
+                    <div data-id="questionText" class="questionsInputs form-control">
+                      السؤال
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="correctAnswer" class="questionsInputs form-control">
+                      الاجابة الصحيحة
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div id="textFormater">
+                <!-- Create the editor container -->
+                <!-- Create toolbar container -->
+                <div id="toolbar">
+                </div>
+                <button class="btn" id="openSymbols">Symbols</button>
+                <div id="symbols"></div>
+                <div class="editor"></div>
+                <div class="textFormater_actions">
+                  <button class="btn alert-warning" id="addInput">
+                    اضف حقل ادخال
+                  </button>
+                  <button class="submitQuestion confirm-question btn btn-info">
+                    اضف السؤال
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-3">
+            <i id="addQuestion" class="fas fa-plus-circle "></i>
+          </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+    <!-- Core build with no theme, formatting, non-essential modules -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+    <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+
+    <!-- Initialize Quill editor -->
+    <%- include('../includes/end.ejs') %>
+      <script src="/js/teacher/components/questions.js"></script>
+      <script src="/js/teacher/components/questionPrev.js"></script>
+      <script src="/js/teacher/components/analytics.js"></script>
+      <script src="/js/teacher/homework.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+</body>
+
+</html>

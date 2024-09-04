@@ -1,0 +1,156 @@
+<i class="fas fa-arrow-right search-interface_closeBtn"></i>
+<div id="searchStudentForm" class="input-group">
+    <div class="searchStudentForm_wrapper">
+        <select id="searchCategory" name="searchType" class="input-group-prepend">
+            <option value="searchUnit" name="categorey" class="dropdown-item">Unit Name</option>
+            <option value="searchExam" name="categorey" class="dropdown-item">Exam Name</option>
+        </select>
+        <img src="/images/loading(3).svg" style="width: 25px; height: 25px;" class="loading" alt="">
+
+        <input style="border: 0;" placeholder="Jump to units or exams.." id="searchStudent" type="text" name="searchVal" class="form-control" aria-label="Text input with dropdown button">
+    </div>
+    <button id="searchStudentBtn" onclick="searchstudent(this)" class="btn bg-success">
+        <i class="fas fa-search"></i>
+    </button>
+</div>
+<div class="searchResult">
+    <i class="fas fa-times closeSearch"></i>
+    <h4>Jump To Unit, Exam..</h4>
+    <div class="content">
+
+    </div>
+</div>
+<!-- Change URL FOR Fetch Method -->
+<script>
+    
+  
+    document.querySelector('.closeSearch').addEventListener('click', function () {
+        document.querySelector('.searchResult').style.display = 'none'
+    })
+    const btn = document.getElementById('searchStudentBtn')
+    document.querySelector('#searchStudent').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            searchstudent(btn)
+        }
+    });
+    const searchstudent = async (btn) => {
+        $('#searchStudentForm .loading').css({ display: 'block' })
+
+        const searchCategory = btn.parentNode.querySelector('[name=searchType]').value;
+        const searchValue = btn.parentNode.querySelector('[name=searchVal]').value
+        const res = await fetch(`/${searchCategory}/${searchValue}`)
+        const resData = await res.json()
+        $('.searchResult ').css({ display: 'block' })
+        $('.searchResult h4').css({ display: 'none' })
+        $('.searchResult .content').empty()
+        $('.searchResult .alert').remove()
+        $('#searchStudentForm .loading').css({ display: 'none' })
+
+        if (res.status != 200) {
+            return $('.searchResult').append(`
+                <div class="alert alert-warning">${resData.message}</div>
+            `)
+        } else {
+
+            if (searchCategory === 'searchUnit') {
+
+                $('.searchResult .content').append(`
+                <div class="searchResult_item">
+                    <h3 class="itemName">${resData.unit.unitDetails.name}</h3>
+                        <span>Term: ${resData.unit.unitInfo.term}</span>
+                        <img class="searchResult_item_image" src="/${resData.unit.unitDetails.image}">
+                        <a href="/getUnit/${resData.unit._id}">Go</a>
+                    </div>
+                    
+                    `)
+            } else {
+                if (resData.exam.pin !== null && resData.exam.pin !== undefined) {
+
+                    $('.searchResult .content').append(`
+                <div class="searchResult_item">
+                    
+                    <input type="hidden" name="examId" value="${resData.exam._id}" id="">
+                    <h3 class="itemName">${resData.exam.lessonName}</h3>
+                        <span>Term: ${resData.exam.term}</span>
+                        <img class="searchResult_item_image" src="/${resData.exam.lessonImg}">
+                        <div class="lesson-pin">
+                            <input type="number" name="studentpin" placeholder="Add exam pin code" >
+                        </div>
+                        <a class="startExam" href="/getExam/${resData.exam._id}">Go</a>
+                    </div>
+                    
+                    `)
+
+                } else {
+
+                    $('.searchResult .content').append(`
+                <div class="searchResult_item">
+                    <input type="hidden" name="examId" value="${resData.exam._id}" id="">
+                    
+                    <h3 class="itemName">${resData.exam.lessonName}</h3>
+                        <span>Term: ${resData.exam.term}</span>
+                        <img class="searchResult_item_image" src="/${resData.exam.lessonImg}">
+                        <a class="startExam" href="/getExam/${resData.exam._id}">Go</a>
+                    </div>
+                    
+                    `)
+                }
+                setTimeout(() => {
+                    $('.searchResult').find('.alert').fadeOut(300).remove()
+                }, 3000, function () {
+                    $('.searchResult').css({ display: 'none' })
+                });
+
+            }
+            $('.startExam').on('click', function (e) {
+                triggrChanged = false
+
+                if (!triggrChanged) {
+                    e.preventDefault()
+                    const examId = $(e.target).parent().find('input[name="examId"]').val()
+                    let pin;
+                    if ($(e.target).parent().find('input[name="studentpin"]').length > 0) {
+                        pin = parseInt($(e.target).parent().find('input[name="studentpin"]').val())
+                        if (pin === '') {
+                            $('.searchResult').append(`
+                                <div class="message" style="position: absolute;">
+                                <p class="alert alert-warning">Add Pin To Start</p>
+                                </div>
+                                `)
+                            setTimeout(() => {
+                                $(e.target).parent().find('.message').fadeOut(300).remove()
+                            }, 3000);
+                        }
+                    } else {
+                        pin = ''
+                    }
+
+                    $.ajax({
+                        url: `/checkExam/${examId}`,
+                        type: 'POSt',
+                        data: { pin: pin },
+                        success: function (data) {
+                            console.log($(e.target));
+
+                            window.location.href = `/getExam/${examId}`
+                        },
+                        error: function (err) {
+                            console.log(err.responseJSON);
+                            $('.searchResult').append(`
+                            <div class="message">
+                            <p class="alert alert-warning">${err.responseJSON.message}</p>
+                            </div>
+                            `)
+                            setTimeout(() => {
+                                $('.searchResult').find('.message').fadeOut(300).remove()
+                            }, 3000);
+                        }
+                    })
+                }
+            });
+        }
+
+
+
+    }
+</script>

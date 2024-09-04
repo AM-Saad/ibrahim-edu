@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+
+    <link rel="stylesheet" href="/css/studentProfile.css">
+    <!-- <link rel="stylesheet" href="/css/teacherPanel.css"> -->
+
+    <title><%= pageTitle %></title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <div class="wrapper">
+
+        <%- include('../includes/message.ejs') %>
+
+        <h1 class="main-heading">Students</h1>
+
+        <div class="">
+            <div id="list-students">
+                <div id="quickLook" class="none">
+                </div>
+                <div class="sheet attendance none">
+                    <i class="getBack fas fa-arrow-left"></i>
+                    <div class="all-items "> </div>
+                </div>
+                <div class="sheet information none">
+                    <i class="getBack fas fa-arrow-left"></i>
+                    <a class="btn btn-info close print-info">Print</a>
+
+                    <div class="all-items p-medium grid g-four" id="barcodes"> </div>
+                </div>
+                <div id='choosenLesson' class="sheet none">
+                    <i class="getBack fas fa-arrow-left"></i>
+                    <div class="all-items"></div>
+                </div>
+                <div class="list-students_filter-wrapper">
+                    <div class="flex f-space-between">
+                        <span id="filterStudentsBtn" class="toggle-filter">Filter<i
+                                class="fas fa-sort-amount-down-alt"></i></span>
+                        <button id="import" class="btn btn-info toggle-import">Import Student</button>
+                    </div>
+                    <div class="filters p-relative" id="filterStudents">
+                        <i class="fas fa-times close toggle-filter"></i>
+                        <div class="bg-darklight p-medium m-b-3">
+                            <h4>Search By Center:</h4>
+                            <form id="filter-students-centers" action="">
+                                <div class="form-check filter-center-students form-check-inline">
+                                    <input class="form-check-input" type="radio" name="center" id="default"
+                                        value="default">
+                                    <label class="form-check-label" for="default">
+                                        Default
+                                    </label>
+                                </div>
+
+                                <% teacher.centers.forEach(c =>{ %>
+                                <div class="form-check filter-center-students form-check-inline">
+                                    <input class="form-check-input" type="radio" name="center"
+                                        id="<%= c.replace(/\s+/g, '-') %>" value="<%=c%>">
+                                    <label class="form-check-label" for="<%= c.replace(/\s+/g, '-') %>">
+                                        <%= c %>
+                                    </label>
+                                </div>
+                                <% }) %>
+                            </form>
+                            <form id="filter-students-grade-centers" action="">
+                                <div class="form-check filter-grade-centers-students form-check-inline">
+                                    <input class="form-check-input" type="radio" name="scgrade" id="sCGrade1" value="1">
+                                    <label class="form-check-label" for="sCGrade1">Grade: 1</label>
+                                </div>
+                                <div class="form-check filter-grade-centers-students form-check-inline">
+                                    <input class="form-check-input" type="radio" name="scgrade" id="sCGrade2" value="2">
+                                    <label class="form-check-label" for="sCGrade2">Grade: 2</label>
+                                </div>
+                                <div class="form-check filter-grade-centers-students form-check-inline">
+                                    <input class="form-check-input" type="radio" name="scgrade" id="sCGrade3" value="3">
+                                    <label class="form-check-label" for="sCGrade3">Grade: 3</label>
+                                </div>
+                            </form>
+                            <button class="btn btn-info" id="start-search">Search</button>
+                        </div>
+                        <div id="search-student-number" class="form-group">
+                            <input class="form-control" type="text" name="sNumber" id="sNumber" placeholder="By Number">
+                            <button id="searchNumberBtn" class="btn btn-sm btn-info">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-lightgray p-medium">
+
+                    <div id="options" class=" m-3">
+                    </div>
+                    <div id="students">
+                        <input type="hidden" name="teacherId" value="<%=user._id%>">
+                    </div>
+                </div>
+                <!-- // update in production 28/9 -->
+                <form class="changecenter external-box w-50 hidden">
+                    <i class="fas fa-times change-center close"></i>
+                    <div>
+                        <label for="updatedname">Name</label>
+                        <input type="text" name="updatedname" id="updatedname" class="form-control">
+                    </div>
+                    <div>
+                        <label for="updatedname">Mobile</label>
+                        <input type="text" name="updatedmobile" id="updatedmobile" class="form-control">
+                    </div>
+                    <div>
+                        <label for="updatedparent">Parent</label>
+                        <input type="text" name="updatedparent" id="updatedparent" class="form-control">
+                    </div>
+                    <div>
+                        <label for="updatedcode">Code</label>
+                        <input type="text" name="updatedcode" id="updatedcode" class="form-control">
+                    </div>
+                    <div>
+                        <label for="updatedcenter">Center</label>
+                        <select name="center" id="updatedcenter" class="form-control">
+                            <% teacher.centers.forEach(c =>{ %>
+                            <option value="<%=c%>"><%=c%></option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <button class=" btn btn-success submit-center">Update</button>
+                </form>
+                <div class="loading none">
+                    <img src="/images/loading(3).svg" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="external-box import-form none">
+
+            <i class="fas fa-times toggle-import close"></i>
+            <a href="/teacher/excel/demo" class="c-g font-l m-b-3">Download Demo</a>
+            <form enctype="multipart/form-data">
+                <div class="flex f-space-between m-t-3">
+                    <div class="grid">
+                        <label for="">Add File</label>
+                        <input id="upload" type=file name="files[]" class="form-control"
+                            style="width: unset; height:unset;">
+                    </div>
+                </div>
+            </form>
+            <p class="info-message success c-g font-xl m-medium"></p>
+            <p class="info-message error c-r font-xl m-medium"></p>
+            <button id="confirm-students" class="btn btn-success opacity-5">Save</button>
+        </div>
+
+    </div>
+
+    <%- include('../includes/end.ejs') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.1.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.9.0/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script src="/js/JsBarcode.all.min.js"></script>
+    <script src="/js/teacher/components/profile-layout.js"></script>
+    <script src="/js/helpers/message.js"></script>
+    <script src="/js/helpers/request.js"></script>
+    <script src="/js/helpers/editForms.js"></script>
+    <script src="/js/teacher/components/students.js"></script>
+    <script src="/js/teacher/components/exams.js"></script>
+    <script src="/js/teacher/centers.js"></script>
+    <script src="/js/teacher/students.js"></script>
+    <script src="/js/teacher/upload-students-sheet.js"></script>
+
+</body>
+
+</html>

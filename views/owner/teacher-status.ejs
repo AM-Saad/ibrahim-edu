@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/css/ownerpanel.css" />
+
+  <title>
+    <%= pageTitle %>
+  </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+  <div class="wrapper">
+    <h1 class="main-heading">Teachers Status</h1>
+
+    <% if(errMessage) { %>
+    <div class="alert alert-warning">
+      <%= errMessage %>
+    </div>
+    <% } %>
+    <% if(sucMessage) { %>
+    <div class="alert alert-success">
+      <%= sucMessage %>
+    </div>
+    <% } %>
+    <div id="teachers-panel">
+      <div class="teachers-panel_nav">
+        <div class="list-group" id="list-tab" role="tablist">
+          <a class="list-group-item list-group-item-action active" id="list-teachers-list" data-toggle="list"
+            href="#list-teachers" role="tab" aria-controls="teachers">Teachers</a>
+          <a class="list-group-item list-group-item-action" id="list-addTeacher-list" data-toggle="list"
+            href="#list-addTeacher" role="tab" aria-controls="addTeacher">add Teacher</a>
+
+
+        </div>
+      </div>
+      <div class="teachers-panel_content">
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="list-teachers" role="tabpanel"
+            aria-labelledby="list-teachers-list">
+            <% if(teachers.length > 0 ){ %>
+            <ul class="list-group">
+              <% teachers.forEach(teacher => { %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <img class="list-teachers-image" src="/<%=teacher.profileImage%>" alt="teacherImage">
+                <a href="/owner/getTeacher/<%= teacher._id %>">
+                  <%= teacher.name %>
+                </a>
+                <a href="/owner/deleteTeacher/<%= teacher._id %>">
+                  <i class="text-danger fas fa-times"></i>
+                </a>
+              </li>
+              <% }) %>
+            </ul>
+            <% } else { %>
+            <p class="lead">No Teachers Yet.</p>
+
+            <% } %>
+          </div>
+          <div class="tab-pane fade" id="list-addTeacher" role="tabpanel" aria-labelledby="list-addTeacher-list">
+            <form action="/owner/addTeacher" method="POST">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Teacher Name</label>
+                <input type="text" class="form-control" placeholder="Enter name" name="name"
+                  value="<% if (hasError) { %><%= oldInputs.name %><% } %>" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Teacher Email</label>
+                <input type="email" class="form-control" placeholder="Enter email" name="email"
+                  value="<% if (hasError) { %><%= oldInputs.email %><% } %>" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" placeholder="Password" name="password"
+                  value="<% if (hasError) { %><%= oldInputs.password %><% } %>" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Confirm Password</label>
+                <input type="password" class="form-control" name="confirmPassword" placeholder="Re-Password"
+                  value="<% if (hasError) { %><%= oldInputs.confirmPassword %><% } %>" />
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputPassword1">Teacher Section</label>
+                <input type="text" class="form-control" name="section" placeholder="Write Teacher Section"
+                  value="<% if (hasError) { %><%= oldInputs.section %><% } %>" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Teacher Subject</label>
+                <input type="text" class="form-control" name="subject" placeholder="Write Teacher Subject"
+                  value="<% if (hasError) { %><%= oldInputs.subject %><% } %>" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Membership</label>
+                <input type="text" class="form-control" name="membership" placeholder="Membership Per Student"
+                  value="<% if (hasError) { %><%= oldInputs.membership %><% } %>" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Teacher Mobile</label>
+                <input type="text" class="form-control" name="mobile" placeholder="Enter Teacher Mobile"
+                  value="<% if (hasError) { %><%= oldInputs.mobile %><% } %>" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Owner Key</label>
+                <input type="text" class="form-control" name="ownerkey" placeholder="Owner Key" />
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <%- include('../includes/end.ejs') %>
+
+
+
+</body>
+
+</html>

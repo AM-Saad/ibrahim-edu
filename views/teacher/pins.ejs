@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+
+        <title>
+            <%= pageTitle %>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+            <div class="flex justify-between">
+                <h1 class="main-heading">Pins</h1>
+
+            </div>
+
+            <% if(errMessage) { %>
+                <div class="alert alert-warning">
+                    <%= errMessage %>
+                </div>
+                <% } %>
+                    <% if(sucMessage) { %>
+                        <div class="alert alert-success">
+                            <%= sucMessage %>
+                        </div>
+                        <% } %>
+                            <div id="teachers-panel" class="dynamic-tabs mt-6">
+                                <div class="teachers-panel_nav">
+                                    <ul
+                                        class="tabs-list bg-gray-50 p-2 rounded mb-2 shadow flex items-center gap-3 max-w-full overflow-y-hidden my-2">
+                                        <li class="inline-block active " data-content=".content-one">
+                                            <button class="btn">All Pins</button>
+                                        </li>
+                                        <li class="inline-block" data-content=".content-two">
+                                            <button class="btn">New Pins </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="content-list" id="nav-tabContent">
+                                    <div class="content-one" aria-labelledby="list-teachers-list">
+                                        <div class="flex justify-between items-center p-3">
+                                            <div class="flex gap-x-5">
+
+                                                <h4>Pins: <%= numPins %>
+                                                </h4>
+                                                <h4> Printed Pins: <%= printed %>
+                                                </h4>
+                                            </div>
+                                            <button class="btn btn-success" onclick="openForm()">
+                                                Print
+                                            </button>
+                                        </div>
+                                        <% if(pins.length> 0 ){ %>
+                                            <ul class="list-group p-medium bg-darkgray">
+                                                <% pins.forEach(p=> { %>
+                                                    <li
+                                                        class="list-group-item flex align-items-center my-3 gap-3 border-b p-2">
+                                                        <a href="/teacher/pins/<%= p._id %>/delete">
+                                                            <i class="text-red-400 fas fa-times"></i>
+                                                        </a>
+                                                        <p>
+                                                            <%= p.pin %> - <span class="text-xs">
+                                                                    <%= p.printed ? 'Printed' : 'Not Printed' %>
+                                                                </span>
+                                                        </p>
+                                                    </li>
+                                                    <% }) %>
+                                            </ul>
+                                            <section id="pagination" class="flex bg-darkgray gap-3">
+                                                <% if(currentPage !==1 && prevPage !==1) { %>
+                                                    <a href="?page=1" class="btn btn-small">1</a>
+                                                    <% } %>
+                                                        <% if(hasPrevPage) { %>
+                                                            <a href="?page=<%= prevPage %>" class="btn btn-small">
+                                                                <%= prevPage %>
+                                                            </a>
+                                                            <% } %>
+                                                                <a href="?page=<%= currentPage %>"
+                                                                    class="btn btn-small btn-success">
+                                                                    <%= currentPage %>
+                                                                </a>
+                                                                <% if(hasNextPage) { %>
+                                                                    <a href="?page=<%= nextPage %>"
+                                                                        class="btn btn-small ">
+                                                                        <%= nextPage %>
+                                                                    </a>
+                                                                    <% } %>
+                                                                        <% if(lastPage !==currentPage && nextPage
+                                                                            !==lastPage) { %>
+
+                                                                            ...
+                                                                            <a href="?page=<%= lastPage %>" class="btn">
+                                                                                Last Page
+                                                                            </a>
+                                                                            <% } %>
+                                            </section>
+                                            <% } else { %>
+                                                <p class="font-bold mt-6 text-center text-gray-500 text-lg">
+                                                    Nothing to show
+                                                </p>
+                                                <% } %>
+
+                                    </div>
+                                    <div class="content-two hidden" aria-labelledby="list-addTeacher-list">
+                                        <form action="/teacher/pins" method="post" class="flex">
+                                            <input type="number" name="pinsLength" value="" id="" class="form-control"
+                                                placeholder="Number of pins" required>
+                                            <button type="submit" class="btn btn-success">
+                                                Create
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="external-box hidden">
+                                        <i class="fas fa-times change-center close" onclick="closeForm()"></i>
+                                        <form action="/teacher/pins/print" method="post">
+                                            <h2>Print Pins</h2>
+                                            <input type="number" name="pins" value="" id="pins" class="form-control"
+                                                placeholder="How Many Pins" required>
+                                            <button type="submit" class="btn btn-success my-2">
+                                                Print
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+            <script src="/js/teacher/pins.js"></script>
+
+
+</body>
+
+</html>

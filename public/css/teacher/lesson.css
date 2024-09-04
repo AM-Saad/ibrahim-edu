@@ -1,0 +1,175 @@
+
+.frame {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 9999999;
+}
+
+.frame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.frame::before {
+
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 35px;
+  width: 250px;
+  background-color: rgb(51 51 51);
+}
+
+.inside-frame {
+
+  height: 100%;
+  /* width: 923px; */
+  max-width: 100%;
+}
+iframe{
+  
+  height: 100%;
+  width: 100%;
+}
+[type="file"] + label.btn-3::before{
+    
+    font-size: 55px;
+}
+
+.progress-bar {
+    --progressbar-color: rgba(233, 233, 233, 0.3);
+    --progress-color: rgba(104, 255, 149, 1);
+    --progress:0;
+    --box-side-height: 10px;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    perspective: 200px;
+  }
+  .progress-bar .box {
+  position: relative;
+    width: 95%;
+    height: 20px;
+    background: var(--progressbar-color);
+    transform-style: preserve-3d;
+    transform: rotateX(0);
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform: rotateX(30deg);
+    
+    border-radius: 3px;
+    margin: auto;
+  }
+  .progress-bar.done .box {
+    transform: rotateX(0);
+  }
+  .progress-bar .box-front {
+    position: absolute;
+    background:#444;
+    width: 100%;
+    height: 8px;
+    left: 0;
+    bottom: 0;
+    transform-origin: center bottom;
+    transform: rotateX(90deg);
+    transition: transform 1s;
+    border-radius: 3px;
+  }
+  .progress-bar .box p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #eee;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+    z-index: 99;
+    transition: opacity 1s, visibility 1s;
+  }
+  .progress-bar.done .box p.loading-text {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .progress-bar:not(.done) .box p.done-text {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .progress-bar .box-bottom {
+    position: absolute;
+    background: #111;
+    opacity: 0.4;
+    width: 100%;
+    height: var(--box-side-height);
+    left: 0;
+    bottom: 0;
+    transform-origin: center bottom;
+    transform: translateZ(-30px);
+    transition: transform 1s;
+    filter: blur(10px);
+
+  }
+  .progress-bar .box::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--progress-color);
+    transform-origin: top left;
+    transform: scaleX(var(--progress));
+    transition: transform 0.1s;
+    box-shadow: 0px 0px 20px rgba(100, 255, 121, 0.4);
+    border-radius: 3px;
+
+  }
+  .progress-bar .box-front::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--progress-color);
+    opacity: .3;
+    transform-origin: top left;
+    transform: scaleX(var(--progress));
+    transition: transform 0.1s;
+    box-shadow: 0px 0px 20px rgba(100, 255, 121, 0.4);
+    border-radius: 3px;
+
+  }
+  
+  .card-img {
+    width: 100%;
+    object-fit: contain;
+    
+    border-radius: var(--radius);
+    margin-bottom: var(--scnd-margin)
+  }
+
+  .card-video{
+    height: 70%;
+    object-fit: contain;
+  }
+  
+  .card-img-overlay {
+    background-color: rgba(34, 34, 34, 0.699)
+  }
+
+  .close-video{
+    font-size: 30px;
+    color: black;
+    display: block;
+    width: 100px;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    cursor: pointer;
+  }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" href="/css/auth.css" />
+        <title>
+            <%= pageTitle%>
+        </title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="selectCenter">
+
+            <div class="note">
+                <div class="main-heading ">
+                    <h1>Choose Your Center.</h1>
+                    <h1>.اختر مركزك التعليمي</h1>
+                </div>
+                <p>You will be charged by
+                    <b>
+                        <%=membership%>
+                    </b> LE per term Paid for your teacher</p>
+                <p>سيتم تحصيل مبلغ
+                    <b>
+                        <%=membership%>
+                    </b> جنيها رسوم اشتراك بواسطة مدرسك تدفع كل ترم </p>
+                <div style="background-color: var(--background-color); margin: 10px 0;">
+                    <p>The Center has to be choosen NOW,
+                        <b> IF Not you won't be Accepted by your teacher.</b>
+                    </p>
+                    <p>يجب تحديد مركزك التعليمي لسهوله التعرف علي حسابك  ,
+                        <b> في حاله عدم تحديده الان لن يتم قبولك من مدرسك</b>
+                    </p>
+                </div>
+            </div>
+            <form action="/selectCenter/<%=teacherId%>?studentId=<%=studentId%>" method="post">
+                <div class="form-group">
+                    <label for="center">Choose Center To Continue:</label>
+                    <select class="form-control" name="center" id="center">
+                        <% centers.forEach(center=> { %>
+                            <option value="<%=center.center%>" name="center">
+                                <%=center.center%>
+                            </option>
+                            <% })%>
+                    </select>
+                </div>
+                <button class="btn btn-sm btn-info">Submit</button>
+            </form>
+        </div>
+        </form>
+
+    </div>
+
+    <%- include('../includes/end.ejs') %>
+
+</body>
+
+</html>

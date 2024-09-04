@@ -1,0 +1,49 @@
+.main-actions_action{
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.wrapper{
+    
+    width: 98% !important
+}
+.content{
+
+}
+
+.studentAttend,
+.content .column span{
+    /* word-break: break-word;
+    background: #fff;
+    margin-bottom: var(--s-margin);
+    padding: 0 var(--s-padding);
+    box-shadow: var(--shadow2);
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center; */
+}
+
+.dates,
+.indecator
+{
+    /* background-color: #eee;
+    height: 30px;
+    padding: 3px 0;
+    box-shadow: var(--shadow2); */
+
+}
+.dates-date{
+    /* font-weight: bold;
+    border-right: 1px solid #ccc;
+    width: 125px;
+    text-align: center; */
+}
+
+.group-item{
+    display: inline-flex;
+    align-items: center;
+    margin: 0 var(--m-margin);
+}
+div[data-session]{ position: relative; }
+div[data-session]:hover::after{ opacity: 1; }

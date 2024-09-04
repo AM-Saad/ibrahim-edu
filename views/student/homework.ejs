@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/student/exam.css" />
+
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+  <div class="wrapper pt-24 lg:pt-0">
+
+    <!-- <div id="timer">
+    <span class="second"></span>
+    <span class="minute"></span>
+    <span class="minuteed"></span>
+    <span class="hour"></span>
+  </div> -->
+    <div id="holders">
+      <section class="placeHolder" style="height: 300px;">
+        <article class="background">
+          <div class="a"></div>
+          <div class="b"></div>
+          <div class="c"></div>
+          <div class="d"></div>
+          <div class="e"></div>
+          <div class="f"></div>
+          <div class="g"></div>
+          <div class="h"></div>
+          <div class="i"></div>
+          <div class="j"></div>
+          <div class="k"></div>
+          <div class="l"></div>
+        </article>
+      </section>
+      <section class="placeHolder">
+        <article class="background">
+          <div class="g"></div>
+          <div class="h"></div>
+          <div class="i"></div>
+          <div class="j"></div>
+          <div class="k"></div>
+          <div class="l"></div>
+        </article>
+      </section>
+    </div>
+    <span id="open-pagination">
+      <i class="fas fa-bars"></i>
+    </span>
+    <input type="hidden" name="lessonId" value="<%=lessonId%>" id="">
+    <input type="hidden" name="originalhomework" value="<%=homeworkId%>" id="">
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="/js/helpers/message.js"></script>
+  <script src="/js/helpers/request.js"></script>
+  <script src="/js/student/components/homework-layout.js"></script>
+  <script src="/js/student/homework.js"></script>
+  <!-- <script src="/js/examTimer.js"></script> -->
+
+</body>
+
+</html>

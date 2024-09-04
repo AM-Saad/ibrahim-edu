@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/public_nav.ejs') %>
+
+    <div class="wrapper" style="padding-top: 100px;">
+      <%- include('../includes/message.ejs') %>
+        <% if( path==='/signup' ) { %>
+
+          <form action="/signup" method="post" class="auth" id="signUp">
+            <h1 class="text-4xl text-center font-bold">Register</h1>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">
+                Your Name
+              </label>
+              <input type="text" class="input" name="name" placeholder="Write your full name"
+                value="<% if (hasError) { %><%= oldInputs.name %><% } %>" />
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">
+                Mobile Number:
+              </label>
+              <input type="text" class="input" name="mobile" placeholder="Write your mobile number"
+                value="<% if (hasError) { %><%= oldInputs.mobile %><% } %>" />
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">Your Code</label>
+              <input type="text" class="input" name="code" placeholder="Write your code"
+                value="<% if (hasError) { %><%= oldInputs.code %><% } %>" />
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">
+                Password:
+              </label>
+              <input type="password" class="input" name="password" placeholder="Write your password"
+                value="<% if (hasError) { %><%= oldInputs.password %><% } %>" />
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">
+                Confirm Password:
+              </label>
+              <input type="password" class="input" name="confirmPassword" placeholder="Confirm your password"
+                value="<% if (hasError) { %><%= oldInputs.confirmPassword %><% } %>" />
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">
+                Grade
+              </label>
+              <select class="input" name="grade" id="exampleFormControlSelect1">
+                <option value="<% if (hasError) { %><%= oldInputs.grade %><% } %>">
+                </option>
+                <option name="1" value="1">1</option>
+                <option name="2" value="2">2</option>
+                <option name="3" value="3">3</option>
+              </select>
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">
+                Center
+              </label>
+              <select class="input" name="center" id="exampleFormControlSelect1">
+                <option value="<% if (hasError) { %><%= oldInputs.center %><% } %>">
+                </option>
+                <% for(c of centers) { %>
+                  <option name="<%=c%>" value="<%=c%>">
+                    <%=c%>
+                  </option>
+                  <%}%>
+              </select>
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">Parent Number</label>
+              <input type="text" class="input" name="parentNo" placeholder="Parent Number"
+                value="<% if (hasError) { %><%= oldInputs.parentNo %><% } %>" />
+            </div>
+            <div class="grid mb-3">
+              <label for="exampleInputPassword1">School </label>
+              <input type="text" class="input" name="school" placeholder="School"
+                value="<% if (hasError) { %><%= oldInputs.school %><% } %>" />
+            </div>
+            <button type="submit" id="sign-up" class="btn btn-main">Register</button>
+            <p>Are you a member?
+              <a href="/login">Login Here</a>
+            </p>
+          </form>
+
+
+    </div>
+    <%}%>
+      </div>
+      <%- include('../includes/public_footer.ejs') %>
+
+        <%- include('../includes/end.ejs') %>
+</body>
+
+</html>

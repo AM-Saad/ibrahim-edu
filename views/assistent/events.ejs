@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <link rel="stylesheet" href="/css/teacher/home.css" />
+
+  <title>
+    <%= pageTitle%>
+  </title>
+
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+  <div class="wrapper">
+    <% if(errMessage) { %>
+    <div class="alert alert-warning">
+      <%=errMessage %>
+    </div>
+    <% } %>
+    <div id="teacherIntro">
+      <div class="intro-holder">
+        <div class="teacherIntro-header">
+          <img src="/<%=user.image ? user.image : 'images/icons/icon.png' %> " alt="">
+          <div>
+            <h1><span>Hello</span>
+              <%= user.name %>
+            </h1>
+          </div>
+        </div>
+
+      </div>
+      <div id="events">
+        <div class="events_new-event-btn">
+          <span>New Post</span>
+          <span>
+            <i class="fas fa-image"></i>
+          </span>
+          <span>
+            <i class="fas fa-file-alt"></i>
+          </span>
+        </div>
+
+        <%- include('../teacher/includes/add-event.ejs') %>
+
+
+        <input type="hidden" id="teacherId" value="<%=user._id%>" name="teacherId">
+        <div id="allEvents">
+          <div id="Eventholders">
+            <section class="placeHolder" style="height: 300px;">
+              <article class="background">
+                <div class="a"></div>
+                <div class="b"></div>
+                <div class="c"></div>
+                <div class="d"></div>
+                <div class="e"></div>
+                <div class="f"></div>
+                <div class="g"></div>
+                <div class="h"></div>
+                <div class="i"></div>
+                <div class="j"></div>
+                <div class="k"></div>
+                <div class="l"></div>
+              </article>
+            </section>
+            <section class="placeHolder" style="height: 300px;">
+              <article class="background">
+                <div class="a"></div>
+                <div class="b"></div>
+                <div class="c"></div>
+                <div class="d"></div>
+                <div class="e"></div>
+                <div class="f"></div>
+                <div class="g"></div>
+                <div class="h"></div>
+                <div class="i"></div>
+                <div class="j"></div>
+                <div class="k"></div>
+                <div class="l"></div>
+              </article>
+            </section>
+            <section class="placeHolder" style="height: 300px;">
+              <article class="background">
+                <div class="a"></div>
+                <div class="b"></div>
+                <div class="c"></div>
+                <div class="d"></div>
+                <div class="e"></div>
+                <div class="f"></div>
+                <div class="g"></div>
+                <div class="h"></div>
+                <div class="i"></div>
+                <div class="j"></div>
+                <div class="k"></div>
+                <div class="l"></div>
+              </article>
+            </section>
+          </div>
+          <%- include('../includes/comments.ejs') %>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+    <%- include('../includes/end.ejs') %>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="/js/components/comments.js"></script>
+    <script src="/js/components/events.js"></script>
+    <script src="/js/teacher/events.js"></script>
+
+</body>
+
+</html>

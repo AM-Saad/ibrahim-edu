@@ -1,0 +1,48 @@
+<div class="monthly-analytics slideable">
+
+    <div class="inside-wrapper">
+        <i class="fas fa-times close toggle-analytics"></i>
+        <div class="report-head">
+
+        </div>
+        <div class="filters p-relative" id="centers">
+            <div class="bg-darklight p-medium m-b-3">
+                <h4>Search By Center:</h4>
+                <form id="filter-students-centers" action="">
+                    <div class="form-check filter-center-students form-check-inline">
+                        <input class="form-check-input" type="radio" name="center" id="default" value="default">
+                        <label class="form-check-label" for="default">
+                            Default
+                        </label>
+                    </div>
+                    <% teacher.centers.forEach(c =>{ %>
+                    <div class="form-check filter-center-students form-check-inline">
+                        <input class="form-check-input" type="radio" name="center" id="<%= c.replace(/\s+/g, '-') %>"
+                            value="<%=c%>">
+                        <label class="form-check-label" for="<%= c.replace(/\s+/g, '-') %>">
+                            <%= c %>
+                        </label>
+                    </div>
+                    <% }) %>
+                </form>
+                <button class="btn btn-info" id="search">Search</button>
+            </div>
+
+        </div>
+        <div class="questions-details">
+        </div>
+        <div class="report p-medium">
+            <div class="questions-report">
+                <h4>Questions</h4>
+                <img src="/images/loading(3).svg" alt="" class="loading none">
+                <!-- <canvas id="questionsChart" width="400" height="400" role="img"></canvas> -->
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- <script src="/modules/jquery.scannerdetection.js"></script> -->
+<!-- <script src="/modules/JsBarcode.all.min.js"></script> -->

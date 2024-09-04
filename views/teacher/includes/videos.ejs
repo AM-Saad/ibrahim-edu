@@ -1,0 +1,50 @@
+<div class="content-one">
+    <div class="flex justify-between p-4">
+        <h2>Video</h2>
+        <% if (user.isTeacher || user.isAssistent){ %>
+            <button class="btn btn-success toggle-video-form addLesson">New
+                Video
+            </button>
+            <%}%>
+    </div>
+    <% if (user.isTeacher || user.isAssistent){ %>
+        <div class="fileForm external-box hidden" id="videoForm">
+            <i class="fas fa-times toggle-video-form close c-w"></i>
+            <div id="UploadBox">
+                <h2 class="p-large">Video Uploader</h2>
+
+                <div class="item_inputs_group video-title">
+                    <label for="">Title:</label>
+                    <input class="item_inputs_control form-control" type="text" id="videoTitle">
+                </div>
+                <div class="item_inputs_group video-title">
+                    <label for="">Link:</label>
+                    <textarea id="videoUrl" class="item_inputs_control"></textarea>
+                </div>
+
+                <button type='button' id='UploadButton' class='Button btn btn-success'>Upload</button>
+                <button type='button' id='cancelButton' class='Button btn btn-warning hidden'>Cancel</button>
+            </div>
+
+        </div>
+        <%}%>
+
+            <div class="single-unit_files grid sm:grid-cols-2 lg:grid-cols-3 gap-4 my-3">
+                <% lesson.videos.forEach(v=>{ %>
+                    <div class="card item">
+                        <input type="hidden" name="examId" value="<%= lesson._id%>" id="">
+                        <img src="/images/videoIcon.jpg" style="max-height: 70%;" class="card-img" alt="...">
+                        <h2 class="card-title text-m">
+                            <%= v.title %>
+                        </h2>
+                        <div class="flex">
+                            <a class="btn btn-success watch-vid" data-vn="<%= v.title %>"
+                                data-vp="<%= v.path %>">Watch</a>
+                            <a class="btn btn-danger"
+                                href="/teacher/videos/delete/<%= lesson._id %>?vidId=<%= v._id %>">Delete</a>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+</div>

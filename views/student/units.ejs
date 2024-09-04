@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" type="text/css" href="/slick/slick.css" />
+        <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css" />
+        <link rel="stylesheet" href="/css/units.css" />
+        <title>
+            <%= pageTitle%>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+            <input type="hidden" name="studentIdNotifi" value="<%=user._id%>">
+            <h1 class="main-heading">
+                All Units
+            </h1>
+
+            <% if(units.length> 0){ %>
+                <div id="teacher-units" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 my-3">
+                    <% units.forEach(u=> { %>
+                        <a class="item unit-item p-2" href="/unit/<%=u._id%>" data-term=<%=u.unitInfo.term %>>
+                            <div class="item-img" style="grid-column: 1/3">
+                                <img src="/<%=u.unitDetails.image %>" class="card-img-top">
+                            </div>
+                            <div class="item-body text-center my-2 text-lg font-bold">
+                                <h4>
+                                    <%= u.unitDetails.name %>
+                                </h4>
+                            </div>
+
+                        </a>
+                        <% }) %>
+
+                </div>
+                <% }else{ %>
+                    <p class="alert alert-info">No Units available yet, Wait For Us..</p>
+                    <% } %>
+
+        </div>
+
+
+        <%- include('../includes/end.ejs') %>
+
+
+            <script type="text/javascript" src="/slick/slick.min.js"></script>
+            <script src="/js/main.js"></script>
+            <script>
+
+                $('.filter-section-item input').on('click', function (e) {
+                    const val = e.target.value
+                    $(`.item`).addClass('none')
+                    $(`.item[data-term="${val}"]`).removeClass('none')
+                })
+            </script>
+</body>
+
+</html>

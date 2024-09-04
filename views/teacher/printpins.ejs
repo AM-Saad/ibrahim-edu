@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous" />
+        <link rel="stylesheet" href="/css/ownerpanel.css" />
+
+        <title>
+            <%= pageTitle %>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+            <div class="flex f-space-between">
+                <button class="btn btn-success" onclick="printPins()"> Print Pins </button>
+            </div>
+
+            <% if(errMessage) { %>
+                <div class="alert alert-warning">
+                    <%= errMessage %>
+                </div>
+                <% } %>
+                    <% if(sucMessage) { %>
+                        <div class="alert alert-success">
+                            <%= sucMessage %>
+                        </div>
+                        <% } %>
+
+        </div>
+        <div class="all-items p-medium">
+            <% pins.forEach((p,i)=>{ %>
+                <h3 class="p-medium"><b>
+                        <%=i%>__
+                    </b>
+                    <%=p.pin%>
+                </h3>
+                <%})%>
+
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+            <script src="/js/teacher/components/owner.js"></script>
+            <script src="/js/teacher/pins.js"></script>
+
+
+
+</body>
+
+</html>

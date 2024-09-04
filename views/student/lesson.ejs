@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" type="text/css" href="/slick/slick.css" />
+        <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css" />
+        <title>
+            <%= pageTitle%>
+        </title>
+        <style>
+              .close-video{
+    font-size: 30px;
+    color: #fff;
+    display: block;
+    width: 100px;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    cursor: pointer;
+  }
+        </style>
+</head>
+
+<body>
+
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+            <input type="hidden" name="studentIdNotifi" value="<%=user._id%>">
+            <input type="hidden" name="lessonId" value="<%=lesson._id%>">
+            <h1 class="main-heading">
+                <%=lesson.name%>
+            </h1>
+            <%- include('../includes/message.ejs') %>
+                <div class="dynamic-tabs">
+                    <ul
+                        class="tabs-list  bg-gray-50 p-2 rounded mb-2 shadow flex items-center justify-between gap-3 max-w-full overflow-y-hidden my-2">
+                        <li class="active btn inline-block" data-content=".content-one">
+                            Videos
+                        </li>
+                        <li class="btn inline-block" data-content=".content-two">
+                            Exams
+                        </li>
+                        <li class="btn inline-block" data-content=".content-five">
+                            Homeworks
+                        </li>
+                        <li class="btn inline-block" data-content=".content-three">
+                            M-Answers
+                        </li>
+                        <li class="btn inline-block" data-content=".content-four">
+                            Pdfs
+                        </li>
+                    </ul>
+                    <div class="content-list">
+
+                        <%- include('./includes/videos.ejs') %>
+                            <div class="content-two hidden">
+                                <div class="flex justify-between p-4">
+                                    <h2>Exams</h2>
+                                </div>
+                                <% if(exams.length> 0 ){ %>
+                                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 my-3">
+                                        <% exams.forEach(e=>{ %>
+                                            <div
+                                                class="card single-unit_files_file rounded bg-white text-center grid border p-2">
+                                                <input type="hidden" name="examId" value="<%= e._id%>" id="">
+                                                <img src="/images/examIcon.png" class="item-img" alt="...">
+                                                <h2 class="card-title text-m">
+                                                    <%=e.name ? e.name : e.lesson%>
+
+                                                </h2>
+                                                <% if(e.pin) { %>
+                                                    <input class="form-control" name="pin" placeholder="Add pin" id="">
+                                                    <%}%>
+                                                        <div class="my-2">
+                                                            <input type="hidden" name="examId" value="<%= e._id%>"
+                                                                id="">
+                                                            <a class="item btn btn-main openexam "
+                                                                href="/exam/<%=e._id%>?lessonId=<%=lesson._id%>">
+                                                                Start</a>
+                                                            </a>
+                                                        </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                    <% }else{ %>
+                                        <p class="alert alert-info">
+                                            No exams yet
+                                        </p>
+                                        <%}%>
+                            </div>
+                            <div class="content-three hidden">
+                                <div class="flex justify-between p-4">
+                                    <h2>Model Answers</h2>
+                                </div>
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 my-3">
+                                    <%lesson.modelAnswers.forEach(f=>{ %>
+                                        <div
+                                            class="single-unit_files_file rounded bg-white text-center grid border p-2">
+                                            <h4>
+                                                <%=f.fileTitle%>
+                                            </h4>
+                                            <div class="single-unit_files_file_action">
+                                                <a class="btn btn-info" href="/pdf/<%=f.fileName%>">Open</a>
+                                            </div>
+                                        </div>
+                                        <%})%>
+                                </div>
+                            </div>
+                            <div class="content-four hidden">
+                                <div class="flex justify-between p-4">
+                                    <h2>Pdfs</h2>
+                                </div>
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 my-3">
+                                    <%lesson.pdfs.forEach(f=>{ %>
+                                        <div
+                                            class="single-unit_files_file rounded bg-white text-center grid border p-2">
+                                            <h4>
+                                                <%=f.fileTitle%>
+                                            </h4>
+                                            <div class="single-unit_files_file_action">
+                                                <a class="btn btn-info" href="/pdf/<%=f.fileName%>">Open</a>
+                                            </div>
+                                        </div>
+                                        <%})%>
+                                </div>
+                            </div>
+                            <div class="content-five hidden">
+                                <div class="flex justify-between p-4">
+                                    <h2>
+                                        Homeworks
+                                    </h2>
+                                </div>
+
+                                <% if(homework.length> 0 ){ %>
+                                    <div class="card grid sm:grid-cols-2 lg:grid-cols-3 gap-4 my-3">
+                                        <% homework.forEach(e=>{ %>
+                                            <div
+                                                class="single-unit_files_file rounded bg-white text-center grid border p-2">
+                                                <input type="hidden" name="homeworkId" value="<%= e._id%>" id="">
+                                                <img src="/images/examIcon.png" class="item-img" alt="...">
+                                                <h2 class="card-title text-m">
+                                                    <%=e.name ? e.name : e.lesson%>
+
+                                                </h2>
+                                                <% if(e.pin) { %>
+                                                    <input type="number" class="form-control" name="pin"
+                                                        placeholder="Add pin" id="">
+                                                    <%}%>
+                                                        <div>
+                                                            <input type="hidden" name="homeworkId" value="<%= e._id%>"
+                                                                id="">
+                                                            <a class="btn btn-main openhomework"
+                                                                href="/exam/<%=e._id%>?lessonId=<%=lesson._id%>">
+                                                                Start</a>
+                                                        </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                    <% }else{ %>
+                                        <p class="alert alert-info">
+                                            No homeworks yet
+                                        </p>
+                                        <%}%>
+                            </div>
+                    </div>
+                </div>
+
+
+                <div class="frame fixed left-[50%] top-[50%] h-full w-full bg-white bg-opacity-75 z-30 transform translate-x-[-50%] translate-y-[-50%] hidden"
+                    id="video_frame">
+          <span class="close-vid close-video close">X</span>
+
+                    <div class="inside-frame w-5/6 m-auto h-full">
+
+                    </div>
+                </div>
+
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+            <script src="/js/main.js"></script>
+            <script src="/js/student/checkexam.js"></script>
+            <script src="/js/student/checkhomework.js"></script>
+            <script src="/js/student/play-video.js"></script>
+
+
+</body>
+
+</html>

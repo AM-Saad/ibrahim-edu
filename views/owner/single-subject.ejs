@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" href="/css/ownerpanel.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous" />
+        <title>
+            <%= pageTitle %>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <div class="container">
+
+            <div class="jumbotron" id="singleTeacher">
+                <div class="singleTeacher-header">
+                    <div class="singleTeacher-header_info">
+                        <h1>
+                            <%= subject.name %>
+                        </h1>
+                        <h4>
+                            <%= subject.grade %>
+                        </h4>
+                        <!-- Render Teachers -->
+                    </div>
+                </div>
+                <img class="rounded" src="/<%= subject.profileImage%>" alt="">
+            </div>
+    </div>
+    <%- include('../includes/end.ejs') %>
+</body>
+</html>

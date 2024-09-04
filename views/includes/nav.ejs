@@ -1,0 +1,175 @@
+<!--Nav-->
+<nav
+  class="fixed w-full z-30 top-0 text-white border-b border-gray-200 bg-white-50 dark:bg-stone-900/50 backdrop-blur-xl p-2 shadow-sm">
+
+  <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
+
+    <div class="pl-4 flex items-center">
+      <a class="" href="/">
+        <img class="h-8" src="/images/Logo.png" alt="Ibrahim Kamel">
+      </a>
+    </div>
+
+    <div class="block lg:hidden pr-4">
+      <button onclick="document.querySelector('#mobile-nav').classList.toggle('hidden')" id="nav-toggle"
+        class="flex items-center p-1">
+        <svg class="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <% if (user.isTeacher){ %>
+
+      <div class="w-full lg:w-auto hidden lg:block mt-2 lg:mt-0 text-black p-4 lg:p-0 z-20 " id="mobile-nav">
+        <ul class="list-reset flex gap-5 flex-col md:flex-row justify-end flex-1 md:items-center">
+          <li>
+            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline"
+              href="/teacher/units">Units</a>
+          </li>
+          <li>
+            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline"
+              href="/teacher/students">Students</a>
+          </li>
+          <li>
+            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline"
+              href="/public/requests">Requests</a>
+          </li>
+          <li>
+            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline"
+              href="/teacher/assistents">Assistents</a>
+          </li>
+          <li>
+            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline"
+              href="/public/attendance">Attendance</a>
+          </li>
+          <li>
+            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline"
+              href="/teacher/settings">Settings</a>
+          </li>
+          <li>
+            <a class="" href="/logout">
+              Logout
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <%}%>
+
+
+        <% if (user.isStudent){ %>
+          <div class="w-full lg:w-auto hidden lg:block mt-2 lg:mt-0 text-black p-4 lg:p-0 z-20" id="mobile-nav">
+            <ul class="list-reset lg:flex justify-end flex-1 items-center">
+              <li>
+                <a class="bg-gray-300  capitalize flex h-8 items-center justify-center rounded-full text-center w-8"
+                  href="/profile">
+                  <%= user.name.slice(0,1) %>
+                </a>
+              </li>
+              <li class="mr-3 search-interface_openBtn">
+                <a class="">
+
+                  <i class="fas fa-search"></i>
+                </a>
+              </li>
+              <li>
+                <a class="" href="/logout">
+                  <i class="fas fa-sign-out-alt"></i>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+          <%}%>
+
+
+            <% if (user.isAssistent){ %>
+              <div class="w-full lg:w-auto hidden lg:block mt-2 lg:mt-0 text-black p-4 lg:p-0 z-20" id="mobile-nav">
+                <ul class="list-reset lg:flex justify-end flex-1 items-center">
+                  <li>
+
+                    <a class="" href="/assistent/home">
+                      Home
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="" href="/assistent/students">
+                      Students
+                    </a>
+                  </li>
+                  <li>
+                    <a class="" href="/teacher/units">
+                      Units
+                    </a>
+                  </li>
+                  <li>
+                    <a class="" href="/teacher/units/new">
+                      Add Unit
+                    </a>
+                  </li>
+                  <li>
+                    <a class="" href="/public/attendance">
+                      Attendance
+                    </a>
+                  </li>
+                  <li>
+                    <a class="" href="/public/requests">
+                      Requests
+                    </a>
+                  </li>
+                  <li>
+                    <a class="" href="/assistent/settings">
+                      Settings
+                    </a>
+                  </li>
+                  <li>
+                    <a class="" href="/logout">
+                      <i class="fas fa-sign-out-alt"></i>
+                      Logout
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
+              <% } %>
+
+
+  </div>
+</nav>
+
+
+
+<script>
+  const button = document.querySelector('.mobileMenuBtn')
+  const clsMenu = document.querySelector('.closeMobileMenu')
+  const sidebar = document.querySelector('.nav-mobile')
+  const searchOpenBtn = document.querySelector('.search-interface_openBtn')
+  const searchCloseBtn = document.querySelector('.search-interface_closeBtn')
+  if (searchCloseBtn != null || searchOpenBtn != null) {
+
+    if (button) {
+
+      button.addEventListener('click', function () {
+        sidebar.classList.toggle('is-hidden')
+      })
+    }
+    if (clsMenu) {
+      clsMenu.addEventListener('click', function () {
+        sidebar.classList.toggle('is-hidden')
+      })
+    }
+    searchOpenBtn.addEventListener('click', function () {
+      document.querySelector('.search-interface').style.right = '0'
+    })
+    if (searchCloseBtn) {
+      searchCloseBtn.addEventListener('click', function () {
+        document.querySelector('.search-interface').style.right = '-100%'
+      })
+    }
+  }
+
+</script>

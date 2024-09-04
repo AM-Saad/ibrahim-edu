@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/teacher/addLesson.css">
+    <title>
+      <%= pageTitle %>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+    <div class="wrapper pt-24 lg:pt-0">
+      <h1 class="main-heading">Create New Lesson</h1>
+      <div class="bg-gray-100 grid grid-cols-2 my-3 p-4 rounded-lg">
+
+        <form action="/teacher/lesson/<%= unitId %>" id="addLessonform" method="POST" enctype="multipart/form-data">
+          <%- include('../includes/message.ejs') %>
+
+            <div class="my-3">
+              <label for="lessonName">Lesson Name</label>
+              <input class="input" type="text" name="lessonName" id="lessonName" placeholder="Lesson Name.."
+                value="<% if (hasError) { %><%= oldInputs.lessonName %><% } %>" id="" />
+            </div>
+            <div class="my-3">
+              <label for="image">Lesson Image</label>
+              <input class="input" type="file" id="image" name="image" />
+            </div>
+            <div class="my-3">
+              <label for="lessonNo">Lesson Number</label>
+              <input class="input" type="number" name="lessonNo" id="lessonNo" placeholder="Lesson Number.." id="" />
+            </div>
+            <div class="flex gap-5 items-center my-3">
+              <label for="locked">Locked</label>
+              <input class="" type="checkbox" name="locked" id="locked" />
+            </div>
+            <div class="my-3">
+
+              <button type="submit" style="grid-column:1/3; float: right;" class="btn btn-success">
+                Add
+              </button>
+            </div>
+
+        </form>
+        <div id="instructions" class="p-2">
+          <p class="">
+            <span>*</span>Hint
+          </p>
+          <ul>
+
+            <li>
+              Add Pin Code to make the lesson private, if added to open student have to add the pin.
+            </li>
+            <li>
+              Add Image relative to the lesson subject, this's not must but (recommended).
+            </li>
+            <li>
+              Make Sure To Add Correct Lesson Number, recommended to look at the last lesson number for same unit before
+              add this (lesson
+              number).
+            </li>
+            <li>
+              Carefully add lesson information to avoid conflicts.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../includes/end.ejs') %>
+</body>
+
+</html>

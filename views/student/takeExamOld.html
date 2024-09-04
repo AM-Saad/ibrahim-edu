@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/exam.css" />
+
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+
+  <!-- <div id="timer">
+      <span class="second"></span>
+      <span class="minute"></span>
+      <span class="minuteed"></span>
+      <span class="hour"></span>
+    </div> -->
+    <div id="holders">
+        <section class="placeHolder" style="height: 300px;">
+          <article class="background">
+            <div class="a"></div>
+            <div class="b"></div>
+            <div class="c"></div>
+            <div class="d"></div>
+            <div class="e"></div>
+            <div class="f"></div>
+            <div class="g"></div>
+            <div class="h"></div>
+            <div class="i"></div>
+            <div class="j"></div>
+            <div class="k"></div>
+            <div class="l"></div>
+          </article>
+        </section>
+        <section class="placeHolder">
+          <article class="background">
+            <div class="g"></div>
+            <div class="h"></div>
+            <div class="i"></div>
+            <div class="j"></div>
+            <div class="k"></div>
+            <div class="l"></div>
+          </article>
+        </section>
+      </div>
+  <span id="open-pagination">
+    <i class="fas fa-bars"></i>
+  </span>
+  <input type="hidden" name="lessonId" value="<%=lessonId%>" id="">
+  <h1 class="main-heading">
+    <%= lesson.lessonName %>
+  </h1>
+  <% if(lesson.allQuestions.length > 0){ %>
+
+    <form id="exam" action="/submitExam/<%= lesson._id %>" method="post" class="carousel-inner">
+      <input type="hidden" name="examId" value="<%=lesson._id%>">
+      <% lesson.allQuestions.forEach(q => { %>
+        <span class="exam-q-number questionNumber btn btn-info">
+          <%=  lesson.allQuestions.findIndex(x => x._id === q._id )  %>
+        </span>
+        <div id="<%=  lesson.allQuestions.findIndex(x => x._id === q._id)  %>" class="form-group exam-question">
+          <p id="questionText">
+            <%= q.question %>
+          </p>
+          <img class="exam-q-img" src="/<%= q.questionImg %>" alt="">
+          <input type="hidden" name="question" value="<%= q.question %>" />
+          <% if(q.questionType === "choose"){ %>
+            <input type="hidden" name="questionId" value="<%= q._id %>" />
+
+            <fieldset class="exam-answers">
+              <% q.answers.forEach(a => { %>
+                <div class="answer">
+
+                  <input type="checkbox" name="selectedAnswers" value="<%= a.answer%>" />
+                  <%= a.answer%>
+                </div>
+                <% }) %>
+            </fieldset>
+
+            <%}%>
+
+              <%if(q.questionType === "written"){%>
+                <div class="writeAnswer" data-target="<%= q._id%>">
+
+                  <div class="canvaswrapper">
+                    <input type="hidden" name="questionId" value="<%= q._id %>" />
+
+                    <span class="closeCanvas">
+                      <i class="fas fa-times"></i>
+                    </span>
+                    <a id="confirmWriteAnswer" class="confirmWriteAnswer">Submit</a>
+                    <button type="button" id="clear" class="clearCanvas btn btn-danger" style="color:#fff;position:absolute;top:5%;right:5%;">Clear</button>
+                  </div>
+                  <a id="startAnswer" class="startAnswer btn btn-info">Start Answer</a>
+                </div>
+
+                <%}%>
+
+        </div>
+        <% }) %>
+          <button id="submitExam" class="btn btn-success" type="submit">Finish Exam</button>
+
+    </form>
+
+
+    <div id="pagination">
+      <ul class="pagination-list">
+        <% lesson.allQuestions.forEach(q => { %>
+          <li class="pagination-list_item" data-scroll="<%= lesson.allQuestions.findIndex(x => x._id === q._id) %>">
+            <button class="questionNumber btn btn-info">
+              <%=  lesson.allQuestions.findIndex(x => x._id === q._id )  %>
+            </button>
+          </li>
+          <%})%>
+      </ul>
+    </div>
+    <%}else{%>
+      <p class="alert alert-info center"> No Questions Yet, Try another time </p>
+
+      <%}%>
+        <script type="text/javascript">
+          window.onbeforeunload = function () {
+            return 'Are you really want to perform the action?';
+          }
+        </script>
+        <%- include('../includes/end.ejs') %>
+          <script src="/js/examConfig.js"></script>
+          <script src="/js/canvas.js"></script>
+          <!-- <script src="/js/examTimer.js"></script> -->
+
+</body>
+
+</html>

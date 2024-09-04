@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/teacher/lesson.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+    <div class="wrapper pt-24 lg:pt-0">
+      <%- include('../includes/message.ejs') %>
+        <input type="hidden" name="lessonId" value="<%=lesson._id%>" id="">
+        <div id="single-unit" class="rounded p-3">
+          <div class="lessons_head">
+            <a href="/teacher/units/<%= lesson.unit %>">
+              <h2 class="main-heading">
+                <%=lesson.name%>
+              </h2>
+            </a>
+          </div>
+          <div class="dynamic-tabs">
+            <ul
+              class="tabs-list  bg-gray-50 p-2 rounded mb-2 shadow flex items-center justify-between gap-3 max-w-full overflow-y-hidden my-2">
+
+              <li class="inline-block active " data-content=".content-one">
+                <button class="btn">Videos</button>
+              </li>
+              <li class="inline-block" data-content=".content-five">
+                <button class="btn" style="font-size: 13px;">Homeworks</button>
+              </li>
+              <li class="inline-block" data-content=".content-two">
+                <button class="btn" style="font-size: 13px;">Exams</button>
+              </li>
+              <li class="inline-block" data-content=".content-three">
+                <button class="btn" style="font-size: 13px;">M-Ansewr</button>
+              </li>
+              <li class="inline-block" data-content=".content-four">
+                <button class="btn">Pdfs</button>
+              </li>
+            </ul>
+            <div class="content-list">
+
+              <%- include('./includes/videos.ejs') %>
+
+
+                <div class="content-two hidden">
+                  <div class="flex justify-between p-4 border-r-l">
+                    <h2>
+                      Exams
+                    </h2>
+                    <form action="/teacher/exam/<%=lesson._id%>" method="post">
+                      <button type="submit" class="btn btn-success addLesson">
+                        Create Exam
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="single-unit_files grid md:grid-cols-3">
+
+                    <% exams.forEach(e=>{ %>
+                      <div class="single-unit_files_file rounded bg-white text-center grid border p-2">
+                        <h2>
+                          <%=e.name ? e.name : e.lesson%>
+                        </h2>
+                        <div class="flex justify-center gap-5 my-1">
+                          <a class="btn btn-info" href="/teacher/exam/<%=e._id%>">
+                            Open
+                          </a>
+                          <a class="btn btn-danger" href="/teacher/exam/delete/<%=lesson._id%>?examId=<%=e._id%>">
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                      <%})%>
+                  </div>
+                </div>
+                <div class="content-three hidden">
+                  <div class="flex justify-between p-4">
+                    <h2>
+                      Model Answers
+                    </h2>
+                    <button class="btn btn-success toggle-modelAnswer addLesson">
+                      Add Model Answer
+                    </button>
+                  </div>
+                  <form action="/teacher/lesson/files/<%=lesson._id%>" method="POST" enctype="multipart/form-data"
+                    class="fileForm hidden external-box" id="ModelAnswerForm">
+                    <i class="fas fa-times toggle-modelAnswer"></i>
+                    <div class="form-group my-2">
+                      <label for="pdftitle">
+                        File Name
+                      </label>
+                      <input type="text" name="fileTitle" class="form-control" placeholder="
+                      Add Name" id="pdftitle">
+                    </div>
+                    <input type="hidden" name="fileType" value="modelAnswers">
+
+                    <div class="form-group">
+                      <label for="modelanswer">
+                        Select File
+                      </label>
+                      <input type="file" class="form-control" name="image" id="modelanswer">
+                    </div>
+                    <button type="submit" class="btn btn-success mt-4">
+                      Upload
+                    </button>
+                  </form>
+                  <div class="single-unit_files  grid md:grid-cols-3">
+                    <% lesson.modelAnswers.forEach(f=>{ %>
+                      <div class="single-unit_files_file rounded bg-white text-center grid border p-2">
+                        <h3>
+                          <%=f.fileTitle%>
+                        </h3>
+                        <div class="flex justify-center gap-5 my-1">
+                          <a class="btn btn-info" href="/pdf/<%=f.fileName%>">
+                            Open
+                          </a>
+                          <a class="btn btn-danger"
+                            href="/teacher/lesson/files/<%=lesson._id%>?fileId=<%=f._id%>&&type=modelAnswers">
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                      <%})%>
+                  </div>
+                </div>
+                <div class="content-four hidden">
+                  <div class="flex justify-between p-4">
+                    <h2>
+                      Pdfs
+                    </h2>
+                    <button class="btn btn-success toggle-pdf-form addLesson">
+                      Add Pdf
+                    </button>
+                  </div>
+                  <form action="/teacher/lesson/files/<%=lesson._id%>" method="POST" enctype="multipart/form-data"
+                    class="fileForm hidden external-box" id="pdfForm">
+                    <i class="fas fa-times toggle-pdf-form"></i>
+                    <div class="form-group my-2">
+                      <label for="fileTitle">
+                        File Name
+                      </label>
+                      <input type="text" name="fileTitle" class="form-control" placeholder="Add Name" id="fileTitle">
+                    </div>
+                    <input type="hidden" name="fileType" value="pdfs">
+                    <div class="form-group">
+                      <label for="pdfFile">
+                        Select File
+                      </label>
+                      <input type="file" class="form-control" name="image" id="pdfFile">
+                    </div>
+                    <button type="submit" class="btn btn-success mt-4">
+                      Upload
+                    </button>
+                  </form>
+                  <div class="single-unit_files  grid md:grid-cols-3">
+
+                    <% lesson.pdfs.forEach(f=>{ %>
+                      <div class="single-unit_files_file rounded bg-white text-center grid border p-2">
+                        <h3>
+                          <%=f.fileTitle%>
+                        </h3>
+                        <div class="flex justify-center gap-5 my-1">
+                          <a class="btn btn-info" href="/pdf/<%=f.fileName%>">
+                            Open
+                          </a>
+                          <a class="btn btn-danger"
+                            href="/teacher/lesson/files/<%=lesson._id%>?fileId=<%=f._id%>&&type=pdfs">
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                      <%})%>
+                  </div>
+                </div>
+
+
+                <div class="content-five hidden">
+                  <div class="flex justify-between p-4 border-r-l">
+                    <h2>
+                      Homeworks
+                    </h2>
+                    <form action="/teacher/homework/<%=lesson._id%>" method="post">
+                      <button type="submit" class="btn btn-success addLesson">
+                        Create Homework
+                      </button>
+                    </form>
+                  </div>
+                  <div class="single-unit_files grid md:grid-cols-3">
+                    <% homework.forEach(e=>{ %>
+                      <div class="single-unit_files_file rounded bg-white text-center grid border p-2">
+                        <h2>
+                          <%=e.name ? e.name : e.lesson%>
+                        </h2>
+                        <div class="flex justify-center gap-5 my-1">
+                          <a class="btn btn-info" href="/teacher/homework/<%=e._id%>">
+                            Open
+                          </a>
+                          <a class="btn btn-danger"
+                            href="/teacher/homework/delete/<%=lesson._id%>?homeworkId=<%=e._id%>">
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                      <%})%>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="frame hidden" id="video_frame">
+          <span class="close-vid close-video close">X</span>
+          <div class="inside-frame">
+          
+          </div>
+        </div>
+    </div>
+    </div>
+    <%- include('../includes/end.ejs') %>
+      <script src="/js/main.js"></script>
+      <script src="/js/helpers/request.js"></script>
+      <script src="/js/helpers/message.js"></script>
+      <script src="/js/teacher/videos.js"></script>
+      <script src="/js/teacher/lesson.js"></script>
+      <script src="/js/student/play-video.js"></script>
+
+      <script>
+      </script>
+
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<div
+    class="events_new-event-box fixed transform top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] overflow-scroll w-[30rem] max-w-full shadow-lg p-3 z-10 bg-white rounded-lg hidden">
+    <div class="flex items-center justify-between py-2">
+        <h3 class="text-lg font-bold">New Event</h3>
+
+        <div id="event-btn_close" class="w-8 h-8 bg-gray-100 rounded-full cursor-pointer text-center flex items-center justify-center hover:bg-gray-50">
+
+            <i class="fas fa-times"></i>
+        </div>
+
+    </div>
+
+    <div class="flex gap-3 mb-3">
+
+        <div class="events-type_btn px-2 border rounded-full" style="background:#65de72">
+            <label class="cursor-pointer" for="public">Public
+                <i class="fas fa-lock-open"></i>
+            </label>
+            <input type="radio" class="eventTypeBtn" name="eventType" value="public" id="public">
+        </div>
+
+        <div class="events-type_btn px-2 border rounded-full">
+            <label class="cursor-pointer" for="private">Private
+                <i class="fas fa-lock"></i>
+            </label>
+            <input type="radio" class="eventTypeBtn" name="eventType" value="private" id="private">
+        </div>
+
+    </div>
+
+    <div class="addeventForm" id="privateEventForm">
+        <div class="event-options hidden">
+            <div class="">
+                <div class="my-4">
+                    <span class="text-sm mb-2 block">Choose Grade</span>
+                    <form
+                        class="filter-grade-item bg-gray-50 p-2 rounded mb-2 shadow flex items-center gap-3 max-w-full overflow-y-hidden">
+                        <div class="radio ">
+                            <label class="cursor-pointer" for="grade1">Grade 1</label>
+                            <input class="gradeBtn" type="radio" value="1" name="grade1" id="grade1">
+                        </div>
+                        <div class="radio ">
+                            <label class="cursor-pointer" for="grade2">Grade 2</label>
+                            <input class="gradeBtn" type="radio" value="2" name="grade2" id="grade2">
+                        </div>
+                        <div class="radio ">
+                            <label class="cursor-pointer" for="grade3">Grade 2</label>
+                            <input class="gradeBtn" type="radio" value="3" name="grade3" id="grade3">
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <span class="text-sm mb-2 block">Choose Center</span>
+                    <form
+                        class="filter-center-item bg-gray-50 p-2 rounded mb-2 shadow flex items-center justify-between gap-3 max-w-full overflow-y-hidden">
+                        <% centers.forEach(c=>{ %>
+                            <div class="radio">
+                                <label class=" cursor-pointer" for="<%=c%>">
+                                    <%=c%>
+                                </label>
+                                <input type="radio" value="<%=c%>" name="<%=c%>" id="<%=c%>" class="centerBtn">
+                            </div>
+                            <%})%>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div>
+            <textarea name="event-content" id="" cols="30" rows="8" class="event-content w-full p-2 border rounded"
+                placeholder="Write down.."></textarea>
+        </div>
+        <div class="my-2">
+            <label for="link">Add Link</label>
+            <input type="text" name="link" id="link" class="form-control event-link" placeholder="Add Link">
+        </div>
+        <div class=" grid">
+            <input type="file" class="eventImage" id="event-image">
+            <label for="event-image" class="btn-3 "></label>
+            <img class="thum-img none">
+        </div>
+
+        <button class="submitEvent btn btn-success mt-4">
+            Add Event
+        </button>
+    </div>
+
+
+</div>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/studentProfile.css" />
+
+    <title>
+        <%= pageTitle %>
+    </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <div id="profile" class="wrapper">
+        <% if(student) { %>
+
+        <div class=" profile-header">
+            <span onclick="openUpdateInfoForm()" id="editInfo" class="btn btn-sm btn-dark">
+                <i class="fas fa-user-edit"></i>
+            </span>
+            <h1>
+                <%= student.name %>
+            </h1>
+            <h2>
+                <%=student.email%>
+            </h2>
+            <%- include('../includes/message.ejs') %>
+
+            <ul class="profile-header_list list-group list-group-horizontal-xl">
+                <li class="list-group-item">Grade:
+                    <%=student.grade%>
+                </li>
+                <li class="list-group-item">Mobile:
+                    <%=student.mobile%>
+                </li>
+
+            </ul>
+            <img class="profile-image" src="/<%=student.profileImage%>" alt="">
+
+
+        </div>
+        <div id="allLessons">
+            <%teachers.forEach(t =>{ %>
+            <div class="lesson">
+                <h3>
+                    <%=t.name%>
+                </h3>
+                <div class="lesson-header">
+                    <span>
+                        <%= t.mobile%>
+                    </span>
+                    <span>
+                        <%= t.membership%>
+                    </span>
+                </div>
+                <div class="lesson-body">
+                    <img src="/<%=t.profileImage%>">
+                </div>
+            </div>
+            <%})%>
+        </div>
+        <div id="allcomments">
+            <i class="fa fas-times" id="closecomments">Close</i>
+        </div>
+        <%}%>
+        </div>
+
+        <script>
+
+        </script>
+        <%- include('../includes/end.ejs') %>
+        <script src="/js/ownerStudentInterface.js"></script>
+</body>
+
+</html>

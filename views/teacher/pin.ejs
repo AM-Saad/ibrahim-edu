@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" href="/css/ownerpanel.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous" />
+        <title>
+            <%= pageTitle%>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+            <h1 class="main-heading">Pin</h1>
+            <form action="/teacher/pin" method="post" class="bg-darkgray p-3 flex">
+                <input type="number" name="pinsLength" class="form-control" value="" id="pin"
+                    placeholder="Add pins length">
+                <button type="submit" class="btn btn-success">Generate</button>
+            </form>
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+
+            <script src="/js/teacher/teacherRequestsConfig.js"></script>
+
+</body>
+
+</html>

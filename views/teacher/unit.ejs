@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" href="/css/units.css" />
+
+        <!-- <link rel="stylesheet" href="/css/units.css" /> -->
+        <title>
+            <%= pageTitle%>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+            <div id="single-unit" class="rounded p-3">
+
+                <div class="lessons" style="padding: 5px;">
+                    <div class="flex justify-between">
+                        <a href="/teacher/units">
+                            <h2 class="main-heading">
+                                <%=unit.unitDetails.name%>
+                            </h2>
+                        </a>
+                        <a class="btn btn-success addLesson" href="/teacher/addLesson/<%=unit._id%>">
+                            Create Lesson
+                        </a>
+                    </div>
+                    <%- include('../includes/message.ejs') %>
+                        <% if(lessons.length> 0){ %>
+                            <div class="grid sm:grid-cols-3 lg:grid-cols-3 gap-4 my-3">
+                                <% lessons.forEach(l=>{ %>
+                                    <form method="POST" action="/teacher/lesson/edit/<%=l._id%>" class="item"
+                                        enctype="multipart/form-data">
+
+                                        <i class="fas fa-ellipsis-v question-sub-menu-btn"></i>
+                                        <ul class="question-list_item-sub-list">
+
+                                            <li class="editForm question-list_item-sub-list-action">
+                                                Edit
+                                            </li>
+                                            <li class="question-list_item-sub-list-action">
+
+                                                <a href="/teacher/lesson/delete/<%=l._id%>?unitId=<%=unit._id%>">
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <input type="hidden" name="lessonId" value="<%=l._id%>" />
+                                        <input type="hidden" name="unitId" value="<%=unit._id%>" />
+                                        <div class="item-img" style="height:40%">
+                                            <div class="tumbnialImage hidden">
+                                                <input type="file" name="image" onchange="displayEditedUnitImage(event)"
+                                                    value="<%= l.lessonImg%>" id="<%= l._id %>"
+                                                    class="item-inputs_control">
+                                                <label for="<%= l._id %>" class="btn-3 "></label>
+                                                <img class="thum-img hidden">
+                                            </div>
+                                            <img src="/<%=l.image%>" class="card-img-top">
+                                        </div>
+                                        <div class="p-2">
+
+                                            <div class="item_inputs_group">
+                                                <label for="">Name</label>
+                                                <input class="item-inputs_control lead p-2 rounded w-100" type="text"
+                                                    value="<%=l.name %>" name="lessonName" disabled />
+                                            </div>
+
+                                            <div class="item_inputs_group">
+                                                <label for="">Number</label>
+                                                <input class="item-inputs_control lead p-2 rounded w-100" min="0"
+                                                    type="number" value="<%=l.lessonNo %>" name="lessonNo" disabled />
+                                            </div>
+                                            <% if(l.pin !==null && l.pin !==undefined){ %>
+                                                <div class="item_inputs_group">
+                                                    <label for="">Pin</label>
+                                                    <input class="item-inputs_control lead p-2 rounded w-100" min="0"
+                                                        type="number" value="<%=l.pin %>" name="lessonPin" disabled />
+                                                </div>
+                                                <% } %>
+                                                    <div class="flex gap-x-5">
+                                                        <button type="submit"
+                                                            class="btn btn-success updatedBtn hidden btn-sm">Edit</button>
+                                                        <button
+                                                            class="btn btn-info cancelBtn hidden btn-sm">Cancel</button>
+                                                        <div class="item-actions">
+                                                            <a class="btn btn-info btn-sm openBtn inline-block"
+                                                                href="/teacher/lesson/<%=l._id%>">Open</a>
+                                                        </div>
+                                                    </div>
+                                        </div>
+
+                                    </form>
+                                    <% }) %>
+                            </div>
+                            <% }else{ %>
+                                <h2 style="color: #888; padding: var(--main-padding)">
+                                    No Lessons Found
+                                </h2>
+                                <% } %>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <%- include('../includes/end.ejs') %>
+            <script src="/js/helpers/message.js"></script>
+            <script src="/js/helpers/request.js"></script>
+            <!-- <script src="/js/helpers/editForms.js"></script> -->
+
+            <script src="/js/main.js"></script>
+            <script src="/js/unit.js"></script>
+            <script>
+                function displayEditedUnitImage(e) {
+                    console.log(e)
+                    let photo = e.target.files[0];  // file from input
+                    if (e.target.files && e.target.files[0]) {
+                        var reader = new FileReader();
+                        const tumbnialImage = $(e.target).siblings('.thum-img')
+                        reader.onload = function (e) {
+                            tumbnialImage.attr('src', e.target.result);
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                        tumbnialImage.removeClass('hidden')
+                    }
+                }
+                $("body").on("click", ".question-sub-menu-btn", (e) => {
+                    $(e.target).parent().find(".question-list_item-sub-list").fadeIn(300);
+                });
+                $(".wrapper").on("click", function () {
+                    $(".question-list_item-sub-list").fadeOut();
+                });
+            </script>
+
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/studentProfile.css" />
+
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+    <%- include('../includes/message.ejs') %>
+      <div class="wrapper">
+        <% if(student) { %>
+          <div class="flex gap-3 justify-between bg-gray-50 p-3 shadow rounded">
+
+            <div class="">
+              <h1 class="font-bold text-xl capitalize">
+                <%= student.name %>
+              </h1>
+              <h2>
+                <%=student.email %>
+              </h2>
+              <ul>
+                <li>Grade: <%=student.grade%>
+                </li>
+                <%if(user._id.toString()===student._id.toString()){ %>
+                  <li>School: <%=student.school%>
+                  </li>
+                  <li>Code: <%=student.code%>
+                  </li>
+                  <li> Parent No: <%=student.parentNo%>
+                  </li>
+                  <li> Mobile: <%=student.mobile%>
+                  </li>
+                  <% } %>
+              </ul>
+              <span id="edit-info" class="btn btn-primary my-2 block w-20" onclick="openUpdateInfo()">Edit</span>
+
+            </div>
+            <div class="h-44 " id="qrcode"></div>
+
+            <!-- info form -->
+            <%- include('./includes/info-forms.ejs') %>
+              <%- include('./includes/update-center_form.ejs') %>
+          </div>
+          <!-- <div id="shareBtn" class="btn btn-success clearfix">Share Dialog</div> -->
+
+          <div class="dynamic-tabs">
+            <ul class="tabs-list flex m-4 gap-2">
+              <li class="active " data-content=".content-one">
+                <button class="btn">Exams</button>
+              </li>
+              <li class="" data-content=".content-two">
+                <button class="btn">Homeworks</button>
+              </li>
+            </ul>
+            <div class="content-list p-relative">
+              <input type="hidden" name="studentId" value="<%=student._id %>">
+              <input type="hidden" name="teacherId" value="isStudent">
+              <img class="loading" src="/images/loading(3).svg" alt="loading" srcset="">
+              <div class="allLessons exams content-one"></div>
+              <div class="allLessons homeworks content-two hidden"></div>
+            </div>
+          </div>
+          <div id='choosenLesson' class="sheet none">
+            <i class="getBack fas fa-arrow-left fixed text-lg cursor-pointer z-40 hover:text-gray-600"></i>
+            <div class="all-items"></div>
+          </div>
+          <div id="allcomments">
+            <i class="fa fas-times" id="closecomments">Close</i>
+          </div>
+          <%}%>
+      </div>
+      <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+      <%- include('../includes/end.ejs') %>
+        <script src="/js/helpers/message.js"></script>
+        <script src="/js/helpers/request.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script src="/js/teacher/components/students.js"></script>
+        <script src="/js/teacher/components/exams.js"></script>
+        <script src="/js/studentExams.js" type="module"></script>
+
+        <script>
+
+          function openUpdateInfo() {
+            document.getElementById("editInfoForm").classList.remove("hidden");
+          }
+
+
+        </script>
+</body>
+
+</html>

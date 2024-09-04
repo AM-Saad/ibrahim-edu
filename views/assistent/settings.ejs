@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/assistent.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <title>
+        <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <%- include('../includes/nav.ejs') %>
+
+
+        <div id="assistentInfo" style="background-image: url(/<%=user.assistentImage%>)">
+
+            <%- include('../includes/message.ejs') %>
+            <form action="/assistent/updateinfo" method="POST" id="editInfoForm" enctype="multipart/form-data">
+                <h3>Update Info</h3>
+
+                <input type="hidden" name="assistentId" value="<%= user._id %>">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Name:</label>
+                    <input class="form-control" type="text" name="updatedName" value="<%=user.name%>" id="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Change Your Image</label>
+                    <input class="form-control" type="file" name="image">
+                </div>
+                <button class="btn btn-success">Update</button>
+            </form>
+            <hr>
+
+            <form action="/assistent/changePass" method="POST" id="editInfoForm" enctype="multipart/form-data">
+                <h3>Change Password</h3>
+                <input type="hidden" name="assistentId" value="<%= user._id %>">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Old Password</label>
+                    <input class="form-control" type="password" name="oldPass">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">New Password</label>
+                    <input class="form-control" type="password" name="newPass">
+                </div>
+
+                <button class="btn btn-success">Change</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

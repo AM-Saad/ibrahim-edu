@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/public_nav.ejs') %>
+    <div class="wrapper" style="padding-top: 100px;">
+      <div id="form-container" class="grid grid-cols-2">
+
+
+        <form action="/login" method="POST" class="auth">
+          <h1 class="text-4xl font-bold mb-2">Login</h1>
+          <%- include('../includes/message.ejs') %>
+            <div class="grid mb-3">
+              <label for="mobile">
+                Mobile number:
+              </label>
+              <input class="input" type="text" id="mobile" placeholder="Write your mobile number" name="mobile"
+                required />
+            </div>
+            <div class="grid mb-3">
+              <label for="password">
+                Password:
+              </label>
+              <input class="input" type="password" id="password" placeholder="Write your password" name="password"
+                required />
+            </div>
+            <div class="form-check flex gap-2">
+              <input type="checkbox" name="isTeacher" id="isTeacher" />
+              <label class="" for="isTeacher">
+                Are you a teacher?
+              </label>
+            </div>
+            <p class="my-3 text-sm">
+
+              Are you a new user?
+              <a href="/signup" class="font-bold text-blue-600">
+                Register now
+              </a>
+
+            </p>
+            <button type="submit" class="btn btn-main">Login</button>
+        </form>
+        <div class="head">
+          <img src="/images/ibrahim2.png" class="h-100 hero-image" alt="">
+        </div>
+      </div>
+      <!-- <div id="our-goals">
+
+        <div class="our-goals_paragraph">
+          <p>
+            هدفنا هو رفع مستوى أطفالنا فكريًا وتربويًا إلى أحدث التقييمات العالمية
+            الطرق التي
+            تطبق من قبل وزارة التربية والتعليم
+          </p>
+
+          <a class="btn-main" href="/public/about">اعرف اكتر</a>
+        </div>
+        <div class="our-goals_image">
+          <video src="/images/videoplayback (2).mp4" title="Introduction" controls="true"></video>
+        </div>
+      </div>
+    </div> -->
+      <%- include('../includes/public_footer.ejs') %>
+
+        <%- include('../includes/end.ejs') %>
+
+</body>
+
+</html>

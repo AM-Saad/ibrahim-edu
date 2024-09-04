@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/teacher/exam.css" />
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+    <div class="wrapper relative pt-24 lg:pt-0">
+      <%- include('../includes/message.ejs') %>
+
+        <input type="hidden" value="<%=examId%>" name="examId">
+        <div id="holders">
+          <section class="placeHolder" style="height: 300px;">
+            <article class="background">
+              <div class="a"></div>
+              <div class="b"></div>
+              <div class="c"></div>
+              <div class="d"></div>
+              <div class="e"></div>
+              <div class="f"></div>
+              <div class="g"></div>
+              <div class="h"></div>
+              <div class="i"></div>
+              <div class="j"></div>
+              <div class="k"></div>
+              <div class="l"></div>
+            </article>
+          </section>
+          <section class="placeHolder">
+            <article class="background">
+              <div class="g"></div>
+              <div class="h"></div>
+              <div class="i"></div>
+              <div class="j"></div>
+              <div class="k"></div>
+              <div class="l"></div>
+            </article>
+          </section>
+        </div>
+        <div class="header rounded  bg-white p-3" style="opacity:0;">
+          <div class="relative">
+            <div class="header-info p-3">
+
+            </div>
+            <div class="flex items-center my-2 justify-end gap-2">
+
+              <div class="header-actions">
+                <a class="toggle-settings btn"> Settings</a>
+              </div>
+              <button id="import" class="btn btn-info toggle-import">
+                Import Questions
+              </button>
+            </div>
+
+            <div class="external-box import-form hidden">
+
+              <i class="fas fa-times toggle-import close"></i>
+              <a href="/teacher/excel/demo/questions" class="font-bold mb-3">
+                Download Demo
+              </a>
+              <form enctype="multipart/form-data" class="my-3">
+                <div class="flex justify-between m-t-3">
+                  <div class="grid">
+                    <label for="upload" class="mb-1">
+                      Select Sheet
+                    </label>
+                    <input id="upload" type=file name="files[]" class="form-control"
+                      style="width: unset; height:unset;">
+                  </div>
+                </div>
+              </form>
+              <p class="info-message success c-g font-xl m-medium"></p>
+              <p class="info-message error c-r font-xl m-medium"></p>
+              <button id="confirm-students" class="btn btn-success opacity-70 m-0">
+                Confirm
+              </button>
+            </div>
+
+
+
+            <form action="/teacher/exam/settings/<%=examId%>" method="POST" class="settings external-box hidden">
+              <h2>Settings</h2>
+              <i class="fas fa-times close toggle-settings"></i>
+              <div class="grid mb-3">
+                <label for="min">Name</label>
+                <input class="input" type="text" name="name">
+              </div>
+
+              <div class="grid mb-3">
+                <label for="min"> Duration</label>
+                <input class="input" type="number" name="min" min="1" id="min">
+              </div>
+
+              <div class="grid mb-3">
+                <label for="pin"> Passcode</label>
+                <input class="input" type="number" name="pin" id="pin">
+              </div>
+              <button type="submit" class="btn btn-success">Save</button>
+            </form>
+
+
+            <div id="NewQuestionForm"
+              class="dynamic-tabs position-absolute hidden p-3 fixed top-0 left-0 h-screen z-30 bg-white overflow-scroll">
+              <span class="text-dark float-right mr-1 mt-1" id="closeQuestionForm">
+                <i class="fas fa-times "></i>
+              </span>
+              <ul
+                class="tabs-list  bg-gray-50 p-2 rounded mb-2 shadow flex items-center justify-between gap-3 max-w-full overflow-y-hidden my-2">
+                <li class="btn active" data-questionType='choose' data-content=".content-one">Choose</li>
+                <li class="btn" data-questionType='written' data-content=".content-two">Written</li>
+                <li class="btn" data-questionType='paragraph' data-content=".content-three">Paragraph</li>
+                <li class="btn" data-questionType='truefalse' data-content=".content-four">True/False</li>
+              </ul>
+              <div class="content-list my-3" style="height: unset !important;">
+                <div class="content-one">
+                  <div class=" grid grid-cols-2 md:grid-cols-4 gap-5 relative questionPreview">
+                    <div data-id="questionText" class="questionsInputs inputActive form-control">
+                      Question
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answerone" class="questionsInputs form-control">
+                      Answer One
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answertwo" class="questionsInputs form-control">
+                      Answer Two
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answerthree" class="questionsInputs form-control">
+                      Answer Three
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="answerfour" class="questionsInputs form-control">
+                      Answer Four
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="correctAnswer" class="questionsInputs form-control">
+                      Correct Answer
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="content-two hidden">
+                  <div class="form-group questionPreview">
+                    <div data-id="questionText" class="questionsInputs form-control">
+                      Question
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="questionScore" class="questionsInputs form-control">
+                      Score <span style="font-size:10px">Defaul: 1</span>
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="content-three hidden">
+                  <div class="form-group questionPreview">
+
+                    <div data-id="questionText" class="questionsInputs form-control">
+                      Question
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="questionScore" class="questionsInputs form-control">
+                      Score<span style="font-size:10px">Default: 1</span>
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="content-four hidden">
+                  <div class="form-group questionPreview">
+
+                    <div data-id="questionText" class="questionsInputs form-control">
+                      Question
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="correctAnswer" class="questionsInputs form-control">
+                      Correct Answer
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div data-id="image" class="questionsInputs form-control">
+                      <input type="file" style="width: 100%;  background: transparent; border: none; height:unset;"
+                        class="questionImg" name="questionImg">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div id="textFormater">
+                <!-- Create the editor container -->
+                <!-- Create toolbar container -->
+                <div id="toolbar">
+                </div>
+                <button class="btn" id="openSymbols">Symbols</button>
+                <div id="symbols"></div>
+                <div class="editor"></div>
+                <div class="textFormater_actions">
+                  <button class="btn alert-warning" id="addInput">
+                    Add Input
+                  </button>
+                  <button class="submitQuestion confirm-question btn btn-info">
+                    Add Question
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-3">
+            <i id="addQuestion" class="fas fa-plus-circle "></i>
+          </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+    <!-- Core build with no theme, formatting, non-essential modules -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+    <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+
+    <!-- Initialize Quill editor -->
+    <%- include('../includes/end.ejs') %>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+
+      <script src="/js/teacher/components/questions.js"></script>
+      <script src="/js/teacher/components/questionPrev.js"></script>
+      <script src="/js/teacher/components/analytics.js"></script>
+      <script src="/js/teacher/exam.js"></script>
+      <script src="/js/teacher/importExam.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+</body>
+
+</html>

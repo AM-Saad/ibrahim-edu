@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <title>
+            <%= pageTitle %>
+        </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+
+            <%- include('../includes/message.ejs') %>
+
+                <h1 class="main-heading my-2">Assistents</h1>
+
+                <% if(assistents.length> 0) { %>
+                    <div id="assistents" class="grid md:grid-cols-2 gap-5">
+                        <% assistents.forEach(assistent=> { %>
+                            <div class="assistent rounded p-3 bg-gray-100 shadow">
+                                <div class="assistent-header">
+                                    <h2>
+                                        <%= assistent.name %>
+                                    </h2>
+                                    <span>Mobile: <%= assistent.mobile %></span>
+                                </div>
+                                <div class="assistent-actions flex items-center gap-5">
+                                    <form action="/teacher/deleteAssistent/<%= assistent._id %>" method="post">
+                                        <button class="btn btn-danger mt-2" type="submit">Delete</button>
+                                    </form>
+
+                                    <% if(assistent.blocked){ %>
+                                        <form action="/teacher/assistents/state/<%= assistent._id %>?state=false"
+                                            method="post">
+                                            <button class="btn btn-success mt-2" type="submit">Unblock</button>
+                                        </form>
+                                        <% } %>
+
+                                            <% if(!assistent.blocked) { %>
+                                                <form action="/teacher/assistents/state/<%= assistent._id %>?state=true"
+                                                    method="post">
+                                                    <button class="btn btn-warning mt-2" type="submit">Block</button>
+                                                </form>
+                                                <% } %>
+
+                                </div>
+
+                            </div>
+                            <% }) %>
+                    </div>
+                    <% } else { %>
+                        <p class="lead">No Assistents Yet.</p>
+                        <% } %>
+
+                            <form action="/teacher/assistents" method="POST" class="p-3 shadow bg-gray-100 my-5">
+                                <h3 class="mb-3 font-medium">New Assistent:</h3>
+
+                                <input type="hidden" name="teacherId" value="<%= userId %>">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Assistent Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter name" name="name"
+                                        required value="<% if (hasError) { %><%= oldInputs.name %><% } %>" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Assistent Mobile</label>
+                                    <input type="text" class="form-control" name="mobile"
+                                        placeholder="Enter Your Mobile" required
+                                        value="<% if (hasError) { %><%= oldInputs.mobile %><% } %>" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="password" class="form-control" placeholder="Password" name="password"
+                                        required value="<% if (hasError) { %><%= oldInputs.password %><% } %>" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Confirm Password</label>
+                                    <input type="password" class="form-control" name="confPassword"
+                                        placeholder="Re-Password" required
+                                        value="<% if (hasError) { %><%= oldInputs.confPassword %><% } %>" />
+                                </div>
+                                <button type="submit" class="btn btn-success my-2">Submit</button>
+                            </form>
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+
+            <script src="/js/helpers/message.js"></script>
+            <script src="/js/helpers/request.js"></script>
+
+</body>
+
+</html>

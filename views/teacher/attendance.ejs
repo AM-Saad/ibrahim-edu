@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+        <link rel="stylesheet" href="/css/teacher/attendance.css" />
+        <title>
+            <%= pageTitle%>
+        </title>
+        <style>
+            #video-container {
+                line-height: 0;
+            }
+
+            #video-container.example-style-1 .scan-region-highlight-svg,
+            #video-container.example-style-1 .code-outline-highlight {
+                stroke: #64a2f3 !important;
+            }
+
+            #video-container.example-style-2 {
+                position: relative;
+                width: max-content;
+                height: max-content;
+                overflow: hidden;
+            }
+
+            #video-container.example-style-2 .scan-region-highlight {
+                border-radius: 30px;
+                outline: rgba(0, 0, 0, .25) solid 50vmax;
+            }
+
+            #video-container.example-style-2 .scan-region-highlight-svg {
+                display: none;
+            }
+
+            #video-container.example-style-2 .code-outline-highlight {
+                stroke: rgba(255, 255, 255, .5) !important;
+                stroke-width: 15 !important;
+                stroke-dasharray: none !important;
+            }
+
+            #flash-toggle {
+                display: none;
+            }
+
+            hr {
+                margin-top: 32px;
+            }
+
+            input[type="file"] {
+                display: block;
+                margin-bottom: 16px;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+        <div class="wrapper pt-24 lg:pt-0">
+
+            <div
+                class="attendance-sheet bg-w bg-white fixed left-0 p-3 top-0 w-full z-20 hidden h-full overflow-scroll">
+                <i class="stop-scan close fas fa-times cursor-pointer text-gray-500"></i>
+                <!--Main Actions -->
+                <aside class="main-actions flex justify-between">
+                    <h3 class="title my-4"></h3>
+                </aside>
+
+                <div class="bg-white fixed h-screen left-0 top-0 z-30">
+                    <div id="video-container" class="m-3 p-3 relative shadow-lg hidden h-full w-full">
+                        <i class="fas fa-times close stop-scan"></i>
+
+                        <video id="qr-video" disablepictureinpicture="" playsinline=""
+                            style="transform: scaleX(-1);"></video>
+                        <div
+                            class="scan-region-highlight absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] scaleX(-1) h-[400px] w-[400px] max-w-full max-h-full ">
+
+                            <svg class="code-outline-highlight" preserveAspectRatio="none"
+                                style="display:none;width:100%;height:100%;fill:none;stroke:#e9b213;stroke-width:5;stroke-dasharray:25;stroke-linecap:round;stroke-linejoin:round">
+                                <polygon></polygon>
+                            </svg>
+                        </div>
+                        <div>
+                            <b>Detected QR code: </b>
+                            <span id="cam-qr-result" style="color: inherit;">No QR code found</span>
+                        </div>
+                        <div>
+                            <b>Last detected at: </b>
+                            <span id="cam-qr-result-timestamp"></span>
+                        </div>
+                    </div>
+                    <div class="hidden">
+                        <div>
+                            <label>
+                                Highlight Style
+                                <select id="scan-region-highlight-style-select">
+                                    <option value="default-style">Default style</option>
+                                    <option value="example-style-1">Example custom style 1</option>
+                                    <option value="example-style-2">Example custom style 2</option>
+                                </select>
+                            </label>
+                            <label>
+                                <input id="show-scan-region" type="checkbox">
+                                Show scan region canvas
+                            </label><canvas width="400" height="400" style="display: none;"></canvas>
+                        </div>
+                        <div>
+                            <select id="inversion-mode-select">
+                                <option value="original">Scan original (dark QR code on bright background)</option>
+                                <option value="invert">Scan with inverted colors (bright QR code on dark background)
+                                </option>
+                                <option value="both">Scan both</option>
+                            </select>
+                            <br>
+                        </div>
+                        <div>
+                            <b>Device has camera: </b>
+                            <span id="cam-has-camera">true</span>
+                        </div>
+                        <div>
+                            <b>Preferred camera:</b>
+                            <select id="cam-list">
+                                <option value="environment" selected="">Environment Facing (default)</option>
+                                <option value="user">User Facing</option>
+                                <option value="4bd34d4345b3a46a83f9bd70d20a4002bf4a71ded422aafe8db78b2f9d35d3be">
+                                    FaceTime HD Camera (1C1C:B782)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <b>Camera has flash: </b>
+                            <span id="cam-has-flash">false</span>
+                        </div>
+                        <div>
+                            <button id="flash-toggle" style="display: none;">📸 Flash: <span
+                                    id="flash-state">off</span></button>
+                        </div>
+                    </div>
+
+                    <!-- <div>
+                            <button id="start-button">Start</button>
+                            <button id="stop-button">Stop</button>
+                        </div> -->
+                    <!-- <div>
+                            <h1>Scan from File:</h1>
+                            <input type="file" id="file-selector">
+                            <b>Detected QR code: </b>
+                            <span id="file-qr-result">None</span>
+                        </div> -->
+
+                </div>
+
+                <div
+                    class="content grid grid-cols-[200px_minmax(900px,_1fr)_100px] max-w-full overflow-x-scroll p-2 relative rounded shadow h-full">
+
+                    <div class="column sticky right-0">
+                        <div class="indecator flex items-center h-[40px]">
+                            <p
+                                class="dates-date font-bold text-center w-[150px] text-xs h-full flex items-center justify-center">
+                                Student
+                            </p>
+                        </div>
+                        <div class="students"> </div>
+                    </div>
+
+                    <div class="body">
+                        <div class="dates flex items-center h-[40px] ">
+                        </div>
+                        <div class="attendance">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <main>
+                <section class="options">
+                    <div class="flex justify-between items-center">
+                        <h1 class="font-bold text-gray-800 text-xl">
+                            Attendance
+                        </h1>
+                        <button class="btn new-session">
+                            New Session
+                        </button>
+                    </div>
+                    <aside class="filters relative p-2 rounded bg-slate-300 " id="filterStudents">
+                        <div id="reportrange" class="hidden">
+                            <i class="fa fa-calendar"></i>&nbsp;
+                            <span>Walaa</span>
+                            <i class="fa fa-caret-down"></i>
+                        </div>
+                        <div>
+                            <span>
+
+                                Choose Center:
+                            </span>
+                            <form id="filter-students-centers"
+                                class=" bg-gray-50 p-2 rounded mb-2 shadow flex items-center justify-between gap-3 max-w-full overflow-y-hidden">
+
+                                <div class="radio filter-center-students form-check-inline">
+                                    <input type="radio" class="form-check-input" name="center" id="default"
+                                        value="default" />
+                                    <label for="default">
+                                        Default
+                                    </label>
+                                </div>
+                                <% centers.forEach(c=> { %>
+                                    <div class="radio filter-center-students form-check-inline">
+                                        <input type="radio" class="form-check-input" name="center" id="<%=c%>"
+                                            value="<%=c%>" />
+                                        <label for="<%=c%>">
+                                            <%=c%>
+                                        </label>
+                                    </div>
+                                    <% }) %>
+
+                            </form>
+                            <div>
+
+                                <span>Choose Grade: </span>
+                                <form
+                                    class=" bg-gray-50 p-2 rounded mb-2 shadow flex items-center justify-between gap-3 max-w-full overflow-y-hidden">
+
+                                    <div>
+                                        <div class="form-check-inline radio">
+                                            <input type="radio" class="form-check-input" name="grade" id="gradeone"
+                                                value="1" />
+                                            <label for="gradeone">1</label>
+                                        </div>
+                                        <div class="form-check-inline radio">
+                                            <input type="radio" class="form-check-input" name="grade" id="gradetwo"
+                                                value="2" />
+                                            <label for="gradetwo">2</label>
+                                        </div>
+                                        <div class="form-check-inline radio">
+                                            <input type="radio" class="form-check-input" id="gradethree" name="grade"
+                                                value="3" />
+                                            <label for="gradethree">3</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        <button class="btn btn-info search-attendance">Search</button>
+                    </aside>
+                </section>
+                <section class="scan-section">
+                    <div class="session-info">
+                        <input type="hidden" name="" id="number">
+                        <input type="hidden" name="" id="center">
+                        <input type="hidden" name="" id="grade">
+                    </div>
+                    <div class="session-students"></div>
+                </section>
+                <div class="external-box startSession hidden">
+                    <i class="fas fa-times new-session close"></i>
+                    <h3 class="bg-lightgray p-1">
+                        Create New Session
+                    </h3>
+                    <form
+                        class="centers bg-gray-50 p-2 rounded mb-2 shadow flex items-center justify-between gap-3 max-w-full overflow-y-hidden">
+                        <% centers.forEach(c=> { %>
+                            <div class="center  form-check filter-grade-item form-check-inline radio">
+                                <input type="radio" class="form-check-input" class="sessionGrade" id="sin<%=c%>"
+                                    name="sessionCenter" value="<%=c%>" />
+                                <label for="sin<%=c%>">
+                                    <%=c%>
+                                </label>
+                            </div>
+                            <% }) %>
+                    </form>
+                    <form class="grades">
+                        <div class="grade form-check filter-grade-item form-check-inline">
+                            <input type="radio" class="form-check-input" name="sessionGrade" id="grade1" value="1" />
+                            <label for="grade1">1</label>
+                        </div>
+                        <div class="grade form-check filter-grade-item form-check-inline">
+                            <input type="radio" class="form-check-input" name="sessionGrade" id="grade2" value="2" />
+                            <label for="grade2">2</label>
+                        </div>
+                        <div class="grade form-check filter-grade-item form-check-inline">
+                            <input type="radio" class="form-check-input" name="sessionGrade" id="grade3" value="3" />
+                            <label for="grade3">3</label>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <label for="sessionNo">
+                            Session Number
+                        </label>
+                        <input type="number" class="form-control" min="0" name="sessionNo" id="sessionNo">
+                    </div>
+                    <button type="submit" class="btn btn-info create-session">
+                        Create
+                    </button>
+                </div>
+
+                <img class="loading hidden" src="/images/loading(3).svg" alt="loading" srcset="">
+
+            </main>
+
+        </div>
+
+        <%- include('../includes/end.ejs') %>
+
+
+            <script src="/js/helpers/message.js"></script>
+            <script src="/js/helpers/request.js"></script>
+            <script src="/js/teacher/components/attendance.js"></script>
+            <script src="/js/teacher/attendance.js" type="module"></script>
+
+            <script>
+                $('.grades input').on('change', function (e) {
+                    const val = $(e.target).val()
+                    if (val == 3) {
+                        $('.sections').removeClass('hidden')
+                    } else {
+                        $('.sections').addClass('hidden')
+
+                    }
+                })
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+<%if(user.isTeacher || user.isAssistent){ %>
+<form id="teacherUpdateStudentCenter" action="/public/updateStudentCenter/<%=student._id%>" method="post">
+    <% centers.forEach(c =>{ %>
+    <div class="center">
+        <label for="">
+            <%= c%>
+        </label>
+        <input type="radio" name="center" value="<%= c%>" id="">
+    </div>
+    <% }) %>
+    <button type="submit">Update</button>
+</form>
+<% } %>

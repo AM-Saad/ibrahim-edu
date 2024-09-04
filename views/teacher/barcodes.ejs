@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+
+        <link rel="stylesheet" href="/css/studentProfile.css">
+        <!-- <link rel="stylesheet" href="/css/teacherPanel.css"> -->
+
+        <title>
+            <%= pageTitle %>
+        </title>
+</head>
+
+<body class="grid g-four pt-24 lg:pt-0">
+    <input type="hidden" id="grade" name="grade" value="<%=grade%>">
+    <input type="hidden" id="center" name="center" value="<%=center%>">
+    <%- include('../includes/message.ejs') %>
+
+        <a class="btn btn-info close print-info" style="top:65px">Print</a>
+
+
+        <%- include('../includes/end.ejs') %>
+            <script src="/js/JsBarcode.all.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.1.1/jspdf.umd.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.9.0/dist/JsBarcode.all.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+            <script src="/js/helpers/message.js"></script>
+            <script src="/js/helpers/request.js"></script>
+            <script src="/js/teacher/components/profile-layout.js"></script>
+            <script src="/js/teacher/barcodes.js"></script>
+
+</body>
+
+</html>

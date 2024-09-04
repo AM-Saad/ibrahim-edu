@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <link rel="stylesheet" href="/css/student/home.css" />
+    <title>
+      <%= pageTitle%>
+    </title>
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+    <div class="wrapper pt-24 lg:pt-0">
+      <%- include('../includes/message.ejs') %>
+
+        <% if(user.activated){ %>
+
+          <main class="studentHome">
+            <div class="side-menu">
+              <div class="p-4">
+                <input type="hidden" name="teacherId" value="<%= teachers[0]._id %>">
+                <input type="hidden" name="studentId" value="<%= user._id %>">
+                <div class="flex items-center gap-2">
+                  <img class="h-16" src="/<%=user.image ? user.image : 'images/student_img.png' %>" alt="">
+                  <h1 class="text-2xl">
+                    Welcome <%= user.name %>
+                  </h1>
+                </div>
+
+                <div class="flex items-center gap-2 my-2">
+                  <a href="/units/1" class="btn btn-main text-white">
+                    Term 1
+                  </a>
+                  <a href="/units/2" class="btn btn-main text-white">
+                    Term 2
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="eventsSideMenu">
+              <div id="allEvents">
+                <div id="holders">
+                  <section class="placeHolder" style="height: 300px;">
+                    <article class="background">
+                      <div class="a"></div>
+                      <div class="b"></div>
+                      <div class="c"></div>
+                      <div class="d"></div>
+                      <div class="e"></div>
+                      <div class="f"></div>
+                      <div class="g"></div>
+                      <div class="h"></div>
+                      <div class="i"></div>
+                      <div class="j"></div>
+                      <div class="k"></div>
+                      <div class="l"></div>
+                    </article>
+                  </section>
+                  <section class="placeHolder" style="height: 300px;">
+                    <article class="background">
+                      <div class="a"></div>
+                      <div class="b"></div>
+                      <div class="c"></div>
+                      <div class="d"></div>
+                      <div class="e"></div>
+                      <div class="f"></div>
+                      <div class="g"></div>
+                      <div class="h"></div>
+                      <div class="i"></div>
+                      <div class="j"></div>
+                      <div class="k"></div>
+                      <div class="l"></div>
+                    </article>
+                  </section>
+                  <section class="placeHolder" style="height: 300px;">
+                    <article class="background">
+                      <div class="a"></div>
+                      <div class="b"></div>
+                      <div class="c"></div>
+                      <div class="d"></div>
+                      <div class="e"></div>
+                      <div class="f"></div>
+                      <div class="g"></div>
+                      <div class="h"></div>
+                      <div class="i"></div>
+                      <div class="j"></div>
+                      <div class="k"></div>
+                      <div class="l"></div>
+                    </article>
+                  </section>
+                </div>
+                <%- include('../includes/comments.ejs') %>
+              </div>
+            </div>
+          </main>
+          <%- include('../includes/end.ejs') %>
+            <script src="/js/helpers/message.js"></script>
+            <script src="/js/helpers/request.js"></script>
+            <script src="/js/components/events.js"></script>
+            <script src="/js/components/comments.js"></script>
+
+            <script src="/js/student/teacher-events.js"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script src="/js/main.js"></script>
+            <% }else{ %>
+              <%- include('./includes/activate.ejs') %>
+                <% } %>
+    </div>
+
+</body>
+
+</html>

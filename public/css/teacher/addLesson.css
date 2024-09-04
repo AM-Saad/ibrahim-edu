@@ -1,0 +1,36 @@
+input[type="file"]{
+    height: unset !important;
+    width: unset !important;
+}
+#addLesson{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: .5em;
+    background-color: #eee;
+    border-radius: 8px;
+    margin-top: 1em;
+}
+.form-group{
+    margin-right: 1rem
+}
+
+
+#instructions p{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #fff
+}
+#instructions p span{
+    color: yellow;
+    margin-right: 3px;
+}
+#instructions ul li{
+    margin-bottom: 15px;
+    font-size: 1em;
+    color: #333;
+}
+@media only screen and (min-width: 320px) and (max-width: 575px){ 
+    #addLesson{
+    grid-template-columns: 1fr;
+}
+}

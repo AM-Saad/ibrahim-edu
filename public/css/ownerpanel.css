@@ -1,0 +1,181 @@
+
+#pagination{
+    padding: var(--s-padding)
+}
+#pagination a{
+    color: #fff;
+    
+    border: 1.2px solid white;
+}
+#pagination a.active{
+
+    background-color: #1db7f3;
+    color: #fff;
+    font-weight: bold;
+    font-size: 19px;
+}
+#options{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 2rem;
+    background-color: var(--background-color);
+    padding: var(--m-padding);
+}
+.options-card{
+    background-color:#444;
+    padding: var(--m-padding);
+    box-shadow: var(--shadow);
+    border-radius: var(--m-radius)
+    
+}
+.options-card:hover{
+    text-decoration: none;
+    opacity: .8;
+}
+.options-card h3{
+    color: #fff;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: var(--m-margin)
+}
+.options-card p{
+    color: #eee;
+    font-size: 1rem;
+}
+
+/* Teachers Panel */
+#teachers-panel{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    
+}
+
+.teachers-panel_nav {
+    width: 100%;
+}
+.teachers-panel_nav .list-group{
+    flex-direction: unset;
+}
+.teachers-panel_content{
+    width: 100%
+}
+.list-teachers-image{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%
+}
+
+/* Single Teacher */
+
+#singleTeacher{
+    background-color: var(--background-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+.singleTeacher-header{
+
+}
+.singleTeacher-header_studnets{
+    min-height: 250px;
+    background-color: var(--background-color);
+}
+#singleTeacher img{
+    max-width: 100%;
+}
+
+
+/* students-panel */
+#students-panel{
+    min-height: 75vh;
+	padding: var(--m-padding);
+    background-color:var(--background-color)!important;
+    position: relative;
+}
+.students-panel_head{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 4px;
+    background-color: #f9f9f9;
+    border-radius: var(--m-radius);
+    box-shadow: var(--shadow)
+}
+.input-group{
+    width: auto !important;
+    display: unset ;
+}
+#searchStudentForm button{
+    top: 4px !important;
+}
+.student-panel_students-list{
+  	display:grid!important;
+  	grid-template-columns: 1fr 1fr 1fr;
+    grid-gap:5px;
+    margin: var(--m-margin) 0;
+    background: #eee;
+    padding: var(--l-padding);
+}
+.student-panel_students-list li{
+    display: grid;
+    font-size: 19px;
+    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    grid-gap: 5px;
+     border-radius:var(--m-radius);
+     padding: var(--s-padding);
+    overflow: scroll;
+    box-shadow: var(--shadow2);
+}
+/* .student-panel_students-list li .teachers{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    padding: var(--scnd-padding);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    display: none;
+} */
+.student-panel_students-list li .teachers .teacher{
+    background-color: #eee;
+    padding: var(--m-padding);
+    border: 1.1px solid #ccc;
+}
+.student-panel_students-list li .teachers .teacher-body{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.activeStudent{
+    
+    background: #ccc !important;
+    border-color: yellow !important;
+}
+.student-panel_students-list li a{
+    text-align: center;
+}
+@media only screen and (min-width: 320px) and (max-width: 575px){ 
+    #options{
+        grid-template-columns: 1fr;
+    }
+    #singleTeacher{
+        grid-template-columns: 1fr;
+    }
+    .students-panel_head{
+        display: grid;
+   
+    }
+.student-panel_students-list{
+    grid-template-columns: 1fr;
+}
+    .input-group{
+        display: unset !important;
+    }
+}

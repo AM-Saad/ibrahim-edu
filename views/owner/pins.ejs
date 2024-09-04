@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/ownerpanel.css" />
+
+    <title>
+        <%= pageTitle %>
+    </title>
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <div class="wrapper">
+        <div class="flex f-space-between">
+            <h1 class="main-heading">Pins</h1>
+            <button class="btn btn-success" onclick="togglePrintPins()"> Print Pins </button>
+        </div>
+
+        <% if(errMessage) { %>
+        <div class="alert alert-warning">
+            <%= errMessage %>
+        </div>
+        <% } %>
+        <% if(sucMessage) { %>
+        <div class="alert alert-success">
+            <%= sucMessage %>
+        </div>
+        <% } %>
+        <div id="teachers-panel">
+            <div class="teachers-panel_nav">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-teachers-list" data-toggle="list"
+                        href="#list-teachers" role="tab" aria-controls="teachers">All Pins</a>
+                    <a class="list-group-item list-group-item-action" id="list-addTeacher-list" data-toggle="list"
+                        href="#list-addTeacher" role="tab" aria-controls="addTeacher">New Pins</a>
+                </div>
+            </div>
+            <div class="teachers-panel_content">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="list-teachers" role="tabpanel"
+                        aria-labelledby="list-teachers-list">
+                        <div class="flex f-space-between p-3">
+                            <h4>Total: <%= numPins %></h4>
+                            <h4>Printed: <%= printed %></h4>
+                        </div>
+                        <% if(pins.length > 0 ){ %>
+                        <ul class="list-group p-medium bg-darkgray">
+                            <% pins.forEach(p => { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center m-b-3">
+                                <span><%= p._id %></span>
+                                <a href="/owner/pins/delete/<%= p._id %>">
+                                    <i class="text-danger fas fa-times"></i>
+                                </a>
+                            </li>
+                            <% }) %>
+                        </ul>
+                        <% } else { %>
+                        <p class="lead">No pins Yet.</p>
+                        <% } %>
+                        <section id="pagination" class="flex bg-darkgray">
+                            <% if(currentPage !== 1 && prevPage !== 1) { %>
+                            <a href="?page=1" class="btn">1</a>
+                            <% } %>
+                            <% if(hasPrevPage) { %>
+                            <a href="?page=<%= prevPage %>" class="btn btn-success">
+                                <%= prevPage %>
+                            </a>
+                            <% } %>
+                            <a href="?page=<%= currentPage %>" class="btn active">
+                                <%= currentPage %>
+                            </a>
+                            <% if(hasNextPage) { %>
+                            <a href="?page=<%= nextPage %>" class="btn btn-success">
+                                <%= nextPage %>
+                            </a>
+                            <% } %>
+                            <% if(lastPage !== currentPage && nextPage !== lastPage) { %>
+
+                            ...
+                            <a href="?page=<%= lastPage %>" class="btn">Last Page</a>
+                            <% } %>
+                        </section>
+                    </div>
+                    <div class="tab-pane fade" id="list-addTeacher" role="tabpanel"
+                        aria-labelledby="list-addTeacher-list">
+                        <form action="/owner/pins" method="post" class="flex">
+                            <input type="number" name="pinsLength" value="" id="" class="form-control"
+                                placeholder="How many pins you want to generate..">
+                            <button type="submit" class="btn btn-success">Generate</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="external-box">
+                <div>
+                    <label for="pins">How Many Pins:</label>
+                    <input type="number" class="form-control" name="reqpins" id="pins">
+                    <button class="btn btn-success" onclick="printPins()">Print</button>
+                </div>
+            </div>
+            <div class="sheet pins none">
+                <i class="getBack fas fa-arrow-left" onclick="closepins()"></i>
+                <button class="btn btn-info" onclick="startPrint()">Print</button>
+                <div class="all-items p-medium"> </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../includes/end.ejs') %>
+    <script src="/js/owner/pins.js"></script>
+    <script src="/js/owner/components.js"></script>
+
+   
+
+</body>
+
+</html>
